@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pkl
+*.db
+*.csv
+*.tsv
+*.xlsx
+frontend/node_modules/
+frontend/dist/
+.vscode/
+*.log
