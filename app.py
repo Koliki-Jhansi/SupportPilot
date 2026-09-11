@@ -11,66 +11,26 @@ from classifier import (
     classify_ticket
 )
 
+from rag.pipeline import run_rag_pipeline
+
 
 app = Flask(__name__)
 
 
 # ==========================================
-# INITIALIZE DATABASE
+# INITIALIZE DATABASE AND ML MODELS
 # ==========================================
 
 create_table()
-
-
-# ==========================================
-# LOAD AI MODELS
-# ==========================================
-
 load_models()
 
 
 # ==========================================
-# HOME PAGE - LOGIN
+# HOME / SUBMIT TICKET PAGE
 # ==========================================
 
 @app.route("/")
 def home():
-
-    return render_template(
-        "login.html"
-    )
-
-
-# ==========================================
-# LOGIN PAGE
-# ==========================================
-
-@app.route("/login")
-def login():
-
-    return render_template(
-        "login.html"
-    )
-
-
-# ==========================================
-# REGISTRATION PAGE
-# ==========================================
-
-@app.route("/register")
-def register():
-
-    return render_template(
-        "register.html"
-    )
-
-
-# ==========================================
-# TICKET SUBMISSION PAGE
-# ==========================================
-
-@app.route("/tickets")
-def tickets_page():
 
     return render_template(
         "index.html"
@@ -78,7 +38,7 @@ def tickets_page():
 
 
 # ==========================================
-# SUBMIT TICKET API
+# SUBMIT TICKET
 # ==========================================
 
 @app.route(
@@ -110,9 +70,7 @@ def submit_ticket():
         )
 
 
-        # ==================================
-        # VALIDATION
-        # ==================================
+        # Validate required fields
 
         if not all([
             employee_name,
@@ -131,9 +89,10 @@ def submit_ticket():
             }), 400
 
 
-        # ==================================
-        # AI CLASSIFICATION
-        # ==================================
+        # ==========================================
+        # MILESTONE 1
+        # AI TICKET CLASSIFICATION
+        # ==========================================
 
         result = classify_ticket(
             title,
@@ -150,9 +109,9 @@ def submit_ticket():
         confidence = result["confidence"]
 
 
-        # ==================================
-        # SAVE TICKET
-        # ==================================
+        # ==========================================
+        # SAVE TO DATABASE
+        # ==========================================
 
         save_ticket(
 
@@ -210,24 +169,131 @@ def dashboard():
     tickets = get_all_tickets()
 
     return render_template(
-
         "dashboard.html",
-
         tickets=tickets
-
     )
 
 
 # ==========================================
-# SEVERITY GUIDE
+# AI RESOLUTION
+# MILESTONE 2 - RAG PIPELINE
 # ==========================================
 
-@app.route("/severity-guide")
-def severity_guide():
+@app.route(
+    "/ai-resolution/<int:ticket_id>"
+)
+def ai_resolution(ticket_id):
 
-    return render_template(
-        "severity_guide.html"
-    )
+    try:
+
+        # Get all tickets
+
+        tickets = get_all_tickets()
+
+
+        selected_ticket = None
+
+
+        # Find requested ticket
+
+        for ticket in tickets:
+
+            if int(ticket["id"]) == ticket_id:
+
+                selected_ticket = dict(ticket)
+
+                break
+
+
+        # Ticket not found
+
+        if selected_ticket is None:
+
+            return render_template(
+
+                "ai_resolution.html",
+
+                ticket=None,
+
+                analysis={},
+
+                retrieved_documents=[],
+
+                resolution=(
+                    "Ticket could not be found."
+                ),
+
+                status="TICKET_NOT_FOUND",
+
+                sources=[]
+
+            ), 404
+
+
+        # ==========================================
+        # RUN RAG PIPELINE
+        # ==========================================
+
+        rag_result = run_rag_pipeline(
+            selected_ticket
+        )
+
+
+        # ==========================================
+        # DISPLAY AI RESOLUTION
+        # ==========================================
+
+        return render_template(
+
+            "ai_resolution.html",
+
+            ticket=rag_result["ticket"],
+
+            analysis=rag_result["analysis"],
+
+            retrieved_documents=(
+                rag_result[
+                    "retrieved_documents"
+                ]
+            ),
+
+            resolution=(
+                rag_result["resolution"]
+            ),
+
+            status=(
+                rag_result["status"]
+            ),
+
+            sources=(
+                rag_result["sources"]
+            )
+
+        )
+
+
+    except Exception as e:
+
+        return render_template(
+
+            "ai_resolution.html",
+
+            ticket=None,
+
+            analysis={},
+
+            retrieved_documents=[],
+
+            resolution=(
+                "AI resolution could not be generated. "
+                + str(e)
+            ),
+
+            status="ERROR",
+
+            sources=[]
+
+        ), 500
 
 
 # ==========================================
@@ -240,6 +306,7 @@ def api_tickets():
     tickets = get_all_tickets()
 
     data = []
+
 
     for ticket in tickets:
 
@@ -285,18 +352,66 @@ def api_tickets():
 
 
 # ==========================================
-# RUN APPLICATION
+# SEVERITY GUIDE
+# ==========================================
+
+@app.route("/severity-guide")
+def severity_guide():
+
+    return render_template(
+        "severity_guide.html"
+    )
+
+
+# ==========================================
+# LOGIN
+# ==========================================
+
+@app.route("/login")
+def login():
+
+    return render_template(
+        "login.html"
+    )
+
+
+# ==========================================
+# REGISTER
+# ==========================================
+
+@app.route("/register")
+def register():
+
+    return render_template(
+        "register.html"
+    )
+
+
+# ==========================================
+# START APPLICATION
 # ==========================================
 
 if __name__ == "__main__":
 
-    print("Starting SupportPilot...")
-    print("Login: http://127.0.0.1:5001")
-    print("Tickets: http://127.0.0.1:5001/tickets")
-    print("Dashboard: http://127.0.0.1:5001/dashboard")
+    print(
+        "Starting SupportPilot..."
+    )
+
+    print(
+        "Open: http://127.0.0.1:5001"
+    )
+
+    print(
+        "Dashboard: "
+        "http://127.0.0.1:5001/dashboard"
+    )
 
     app.run(
+
         debug=True,
+
         host="127.0.0.1",
+
         port=5001
+
     )

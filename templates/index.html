@@ -5,219 +5,1022 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SupportPilot - Submit Ticket</title>
+    <title>Submit Ticket | SupportPilot</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4338ca;
+            --purple: #8b5cf6;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --red: #ef4444;
+            --orange: #f59e0b;
+            --background: #f5f7fb;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e7ecf3;
+        }
+
+
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
+
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
+            min-height: 100vh;
+
+            font-family:
+                "Inter",
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 85% 5%,
+                    rgba(129,140,248,0.16),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 10% 90%,
+                    rgba(56,189,248,0.10),
+                    transparent 28%
+                ),
+                var(--background);
         }
 
+
+        /* ================= SIDEBAR ================= */
+
         .sidebar {
-            width: 215px;
+            width: 270px;
             height: 100vh;
+
             position: fixed;
             left: 0;
             top: 0;
-            background: white;
-            border-right: 1px solid #e5e7eb;
-            padding: 25px 12px;
+
+            padding: 24px 18px;
+
+            display: flex;
+            flex-direction: column;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #111827 0%,
+                    #1e1b4b 52%,
+                    #312e81 100%
+                );
+
+            box-shadow:
+                16px 0 40px rgba(15,23,42,0.10);
+
+            z-index: 1000;
         }
 
-        .logo {
+
+        .brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            padding-left: 10px;
+            gap: 12px;
+
+            padding:
+                4px 10px 32px;
         }
 
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: #e6f0ff;
-            color: #2563eb;
-            border-radius: 10px;
+
+        .brand-logo {
+            width: 47px;
+            height: 47px;
+
+            border-radius: 14px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+
+            font-size: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            box-shadow:
+                0 10px 28px rgba(99,102,241,0.42);
         }
 
-        .logo h4 {
+
+        .brand h4 {
             margin: 0;
-            color: #1f2937;
-            font-weight: bold;
+
+            font-size: 20px;
+            font-weight: 800;
         }
 
-        .logo small {
-            color: #94a3b8;
-            font-size: 12px;
+
+        .brand small {
+            font-size: 10px;
+
+            color: #a5b4fc;
         }
 
-        .menu-item {
-            display: block;
+
+        .menu-label {
+            margin:
+                12px 12px 8px;
+
+            color: #818cf8;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .nav-item-custom {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            margin-bottom: 5px;
+
+            padding: 12px 14px;
+
+            border-radius: 12px;
+
+            color: #c7d2fe;
+
             text-decoration: none;
-            color: #64748b;
-            padding: 14px 15px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 15px;
+
+            font-size: 13px;
+            font-weight: 500;
+
+            transition:
+                all 0.22s ease;
         }
 
-        .menu-item:hover {
-            background: #f1f5f9;
-            color: #2563eb;
-        }
 
-        .menu-item.active {
-            background: #edf3ff;
-            color: #2563eb;
-            border-left: 3px solid #2563eb;
-            font-weight: 600;
-        }
+        .nav-item-custom i {
+            width: 20px;
 
-        .bottom-user {
-            position: absolute;
-            bottom: 25px;
-            left: 15px;
-            right: 15px;
             text-align: center;
-            color: #64748b;
         }
 
-        .bottom-user hr {
-            border-color: #e5e7eb;
+
+        .nav-item-custom:hover {
+            color: white;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            transform:
+                translateX(3px);
         }
 
-        .main-content {
-            margin-left: 215px;
+
+        .nav-item-custom.active {
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(99,102,241,0.48),
+                    rgba(139,92,246,0.18)
+                );
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+
+        .profile-card {
+            padding: 13px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #8b5cf6
+                );
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 270px;
+
             min-height: 100vh;
         }
 
+
+        /* ================= TOP BAR ================= */
+
         .topbar {
-            background: white;
-            height: 65px;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 20px;
-            font-size: 20px;
-            font-weight: 600;
-            color: #1f2937;
+            height: 78px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            padding:
+                0 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background:
+                rgba(255,255,255,0.80);
+
+            backdrop-filter:
+                blur(20px);
+
+            border-bottom:
+                1px solid rgba(229,231,235,0.8);
         }
+
+
+        .topbar h5 {
+            margin: 0;
+
+            font-size: 18px;
+            font-weight: 750;
+        }
+
+
+        .topbar p {
+            margin:
+                4px 0 0;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+        }
+
+
+        .system-status {
+            padding:
+                8px 13px;
+
+            border-radius: 30px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            background: #ecfdf5;
+
+            border:
+                1px solid #d1fae5;
+
+            color: #047857;
+
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #10b981;
+
+            animation:
+                pulse 1.8s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(16,185,129,0.45);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 8px rgba(16,185,129,0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0 rgba(16,185,129,0);
+            }
+        }
+
+
+        /* ================= CONTENT ================= */
 
         .content {
-            padding: 25px;
+            padding:
+                32px 34px 45px;
         }
 
-        .status-message {
-            background: #e8f4ed;
-            color: #166534;
-            border-radius: 8px;
-            padding: 12px 18px;
-            margin-bottom: 15px;
-            display: none;
+
+        /* ================= HERO ================= */
+
+        .hero {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px;
+
+            margin-bottom: 28px;
+
+            border-radius: 22px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1e1b4b,
+                    #4338ca 54%,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 18px 45px rgba(67,56,202,0.20);
         }
 
-        .ticket-card {
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            right: -75px;
+            top: -100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.12);
+        }
+
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            right: 160px;
+            bottom: -130px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(56,189,248,0.16);
+        }
+
+
+        .hero-inner {
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            margin-bottom: 12px;
+
+            padding:
+                6px 10px;
+
+            border-radius: 30px;
+
+            font-size: 10px;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border:
+                1px solid rgba(255,255,255,0.13);
+        }
+
+
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 800;
+
+            margin-bottom: 9px;
+        }
+
+
+        .hero p {
             max-width: 720px;
-            background: white;
-            border-radius: 14px;
-            padding: 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+            margin: 0;
+
+            color: #e0e7ff;
+
+            font-size: 13px;
+
+            line-height: 1.7;
         }
 
-        .ticket-card h5 {
-            font-weight: 600;
-            margin-bottom: 25px;
+
+        /* ================= MAIN GRID ================= */
+
+        .page-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr) 310px;
+
+            gap: 25px;
+
+            align-items: start;
         }
+
+
+        /* ================= FORM ================= */
+
+        .form-card {
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.90);
+
+            border:
+                1px solid var(--border);
+
+            box-shadow:
+                0 12px 35px rgba(15,23,42,0.05);
+        }
+
+
+        .form-card-header {
+            padding:
+                22px 24px;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            border-bottom:
+                1px solid #eef2f7;
+        }
+
+
+        .form-icon {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            box-shadow:
+                0 8px 20px rgba(99,102,241,0.23);
+        }
+
+
+        .form-card-header h5 {
+            margin: 0;
+
+            font-size: 16px;
+            font-weight: 750;
+        }
+
+
+        .form-card-header p {
+            margin:
+                4px 0 0;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+
+        .form-body {
+            padding: 26px;
+        }
+
 
         .form-label {
-            color: #64748b;
-            font-size: 13px;
-            font-weight: 500;
+            margin-bottom: 7px;
+
+            color: #374151;
+
+            font-size: 11px;
+            font-weight: 650;
         }
+
+
+        .required {
+            color: #ef4444;
+        }
+
+
+        .input-group-custom {
+            position: relative;
+        }
+
+
+        .input-icon {
+            position: absolute;
+
+            top: 50%;
+            left: 14px;
+
+            transform:
+                translateY(-50%);
+
+            color: #9ca3af;
+
+            z-index: 3;
+
+            font-size: 13px;
+        }
+
 
         .form-control,
         .form-select {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 11px;
+            min-height: 47px;
+
+            border:
+                1px solid #dfe5ee;
+
+            border-radius: 11px;
+
+            background: #fbfcfe;
+
+            font-size: 12px;
+
+            box-shadow: none !important;
+
+            transition:
+                0.2s;
         }
+
+
+        .input-group-custom .form-control {
+            padding-left: 40px;
+        }
+
 
         .form-control:focus,
         .form-select:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+            border-color: #818cf8;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(99,102,241,0.08) !important;
         }
 
-        .submit-btn {
-            background: #2563eb;
+
+        textarea.form-control {
+            min-height: 145px;
+
+            padding-top: 14px;
+
+            resize: vertical;
+        }
+
+
+        .helper {
+            margin-top: 6px;
+
+            color: #9ca3af;
+
+            font-size: 10px;
+        }
+
+
+        .submit-button {
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding:
+                13px 18px;
+
             border: none;
-            border-radius: 8px;
-            padding: 12px;
-            font-weight: 600;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 25px rgba(79,70,229,0.22);
+
+            transition:
+                0.22s;
         }
 
-        .result-card {
-            display: none;
-            margin-top: 25px;
-            border-radius: 14px;
-            padding: 20px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+
+        .submit-button:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 30px rgba(79,70,229,0.28);
         }
+
+
+        .submit-button:disabled {
+            opacity: 0.7;
+
+            transform: none;
+        }
+
+
+        /* ================= RIGHT PANEL ================= */
+
+        .side-card {
+            padding: 20px;
+
+            margin-bottom: 18px;
+
+            border-radius: 17px;
+
+            background:
+                rgba(255,255,255,0.88);
+
+            border:
+                1px solid var(--border);
+
+            box-shadow:
+                0 10px 28px rgba(15,23,42,0.04);
+        }
+
+
+        .side-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 15px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        .side-title-icon {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+        }
+
+
+        .step {
+            position: relative;
+
+            display: flex;
+
+            gap: 11px;
+
+            padding-bottom: 17px;
+        }
+
+
+        .step:last-child {
+            padding-bottom: 0;
+        }
+
+
+        .step-number {
+            min-width: 28px;
+            height: 28px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #4f46e5;
+
+            background: #eef2ff;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        .step h6 {
+            margin:
+                2px 0 3px;
+
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+
+        .step p {
+            margin: 0;
+
+            color: #9ca3af;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+
+        .ai-card {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #312e81
+                );
+
+            border: none;
+        }
+
+
+        .ai-card .side-title-icon {
+            color: white;
+
+            background:
+                rgba(255,255,255,0.11);
+        }
+
+
+        .ai-card p {
+            color: #c7d2fe;
+
+            font-size: 10px;
+
+            line-height: 1.7;
+
+            margin-bottom: 0;
+        }
+
+
+        /* ================= RESULT ================= */
+
+        #resultBox {
+            display: none;
+
+            margin-bottom: 24px;
+
+            padding: 18px 20px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ecfdf5,
+                    #eff6ff
+                );
+
+            border:
+                1px solid #d1fae5;
+
+            box-shadow:
+                0 8px 22px rgba(16,185,129,0.06);
+        }
+
+
+        .result-top {
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .result-icon {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            background: #10b981;
+        }
+
+
+        .result-top h6 {
+            margin: 0;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        .result-top p {
+            margin:
+                3px 0 0;
+
+            font-size: 10px;
+
+            color: #6b7280;
+        }
+
 
         .result-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
         }
 
-        .result-box {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
+
+        .result-item {
+            padding: 11px;
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,0.75);
         }
 
-        .result-box small {
-            color: #64748b;
+
+        .result-item span {
+            display: block;
+
+            color: #9ca3af;
+
+            font-size: 9px;
+
+            margin-bottom: 3px;
         }
 
-        .result-box h5 {
-            margin: 5px 0 0;
+
+        .result-item strong {
+            font-size: 11px;
         }
 
-        @media (max-width: 768px) {
 
-            .sidebar {
-                width: 70px;
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 1050px) {
+
+            .page-grid {
+                grid-template-columns: 1fr;
             }
 
-            .logo h4,
-            .logo small,
-            .menu-text,
-            .bottom-user {
+            .right-panel {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 18px;
+            }
+        }
+
+
+        @media(max-width: 900px) {
+
+            .sidebar {
                 display: none;
             }
 
-            .main-content {
-                margin-left: 70px;
+            .main {
+                margin-left: 0;
             }
 
-            .menu-item {
-                text-align: center;
+            .content {
+                padding: 20px;
             }
 
+            .topbar {
+                padding:
+                    0 20px;
+            }
+        }
+
+
+        @media(max-width: 650px) {
+
+            .result-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .right-panel {
+                grid-template-columns:
+                    1fr;
+            }
         }
 
     </style>
@@ -228,236 +1031,697 @@
 <body>
 
 
+<!-- ================= SIDEBAR ================= -->
+
 <div class="sidebar">
 
-    <div class="logo">
+    <div class="brand">
 
-        <div class="logo-icon">
-            🎧
+        <div class="brand-logo">
+
+            <i class="fa-solid fa-headset"></i>
+
         </div>
 
         <div>
+
             <h4>SupportPilot</h4>
-            <small>IT Ticket Desk</small>
+
+            <small>
+                AI Ticket Intelligence
+            </small>
+
         </div>
 
     </div>
 
 
-    <a href="/dashboard" class="menu-item">
-        📊 <span class="menu-text">Dashboard</span>
-    </a>
+    <div class="menu-label">
+        Workspace
+    </div>
 
-    <a href="/" class="menu-item active">
-        ➕ <span class="menu-text">Submit Ticket</span>
-    </a>
 
-    <a href="/dashboard" class="menu-item">
-        📁 <span class="menu-text">All Tickets</span>
-    </a>
+    <a
+        href="/dashboard"
+        class="nav-item-custom"
+    >
 
-    <a href="/severity-guide" class="menu-item">
-    📈 <span class="menu-text">Severity Guide</span>
-</a>
+        <i class="fa-solid fa-chart-pie"></i>
 
-    <a href="/api/tickets" class="menu-item">
-        ⚑ <span class="menu-text">API Info</span>
+        Dashboard
+
     </a>
 
 
-    <div class="bottom-user">
+    <a
+        href="/"
+        class="nav-item-custom active"
+    >
 
-        <hr>
+        <i class="fa-solid fa-circle-plus"></i>
 
-        <p class="mb-2">Support User</p>
+        Submit Ticket
 
-        <button class="btn btn-link text-danger text-decoration-none">
-            Logout
-        </button>
+    </a>
+
+
+    <a
+        href="/dashboard"
+        class="nav-item-custom"
+    >
+
+        <i class="fa-solid fa-ticket"></i>
+
+        All Tickets
+
+    </a>
+
+
+    <div class="menu-label mt-4">
+        Intelligence
+    </div>
+
+
+    <a
+        href="/severity-guide"
+        class="nav-item-custom"
+    >
+
+        <i class="fa-solid fa-chart-simple"></i>
+
+        Severity Guide
+
+    </a>
+
+
+    <a
+        href="/api/tickets"
+        class="nav-item-custom"
+    >
+
+        <i class="fa-solid fa-code"></i>
+
+        API Console
+
+    </a>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="profile-card">
+
+            <div class="avatar">
+                A
+            </div>
+
+            <div>
+
+                <div
+                    style="
+                        font-size:12px;
+                        font-weight:600;
+                    "
+                >
+                    Support Agent
+                </div>
+
+                <div
+                    style="
+                        font-size:10px;
+                        color:#a5b4fc;
+                        margin-top:2px;
+                    "
+                >
+                    System Administrator
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
 
-<div class="main-content">
 
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+
+    <!-- TOP BAR -->
 
     <div class="topbar">
-        Submit Ticket
+
+        <div>
+
+            <h5>
+                Create Support Request
+            </h5>
+
+            <p>
+                Submit an issue for intelligent ticket analysis
+            </p>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="pulse"></span>
+
+            AI Engine Online
+
+        </div>
+
     </div>
+
 
 
     <div class="content">
 
 
-        <div id="statusMessage" class="status-message"></div>
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-inner">
 
 
-        <div class="ticket-card">
+                <div class="hero-badge">
 
-            <h5>Submit a Ticket</h5>
+                    <i class="fa-solid fa-sparkles"></i>
 
-
-            <form id="ticketForm">
-
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Employee Name
-                    </label>
-
-                    <input
-                        type="text"
-                        name="employee_name"
-                        class="form-control"
-                        placeholder="Enter your name"
-                        required
-                    >
+                    Intelligent Ticket Intake
 
                 </div>
 
 
-                <div class="mb-3">
+                <h1>
+                    Tell us what went wrong.
+                </h1>
 
-                    <label class="form-label">
-                        Email
-                    </label>
 
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="Enter your email"
-                        required
-                    >
+                <p>
+                    SupportPilot analyzes the support request automatically
+                    and predicts the ticket category, severity, priority,
+                    and AI classification confidence.
+                </p>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RESULT -->
+
+        <div id="resultBox">
+
+            <div class="result-top">
+
+                <div class="result-icon">
+
+                    <i class="fa-solid fa-check"></i>
+
+                </div>
+
+                <div>
+
+                    <h6>
+                        Ticket submitted successfully
+                    </h6>
+
+                    <p id="resultMessage">
+                        SupportPilot completed the AI analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-item">
+
+                    <span>Category</span>
+
+                    <strong id="resultCategory">
+                        -
+                    </strong>
 
                 </div>
 
 
-                <div class="mb-3">
+                <div class="result-item">
 
-                    <label class="form-label">
-                        Department
-                    </label>
+                    <span>Severity</span>
 
-                    <input
-                        type="text"
-                        name="department"
-                        class="form-control"
-                        placeholder="Engineering"
-                    >
+                    <strong id="resultSeverity">
+                        -
+                    </strong>
 
                 </div>
 
 
-                <div class="mb-3">
+                <div class="result-item">
 
-                    <label class="form-label">
-                        Ticket Title
-                    </label>
+                    <span>Priority</span>
 
-                    <input
-                        type="text"
-                        name="title"
-                        class="form-control"
-                        placeholder="Short summary"
-                        required
-                    >
+                    <strong id="resultPriority">
+                        -
+                    </strong>
 
                 </div>
 
 
-                <div class="mb-3">
+                <div class="result-item">
 
-                    <label class="form-label">
-                        Description
-                    </label>
+                    <span>AI Confidence</span>
 
-                    <textarea
-                        name="description"
-                        class="form-control"
-                        rows="5"
-                        placeholder="Describe the issue in detail..."
-                        required
-                    ></textarea>
+                    <strong id="resultConfidence">
+                        -
+                    </strong>
 
                 </div>
 
+            </div>
 
-                <div class="mb-4">
-
-                    <label class="form-label">
-                        Business Impact
-                    </label>
-
-                    <select class="form-select">
-
-                        <option>Low</option>
-                        <option selected>Medium</option>
-                        <option>High</option>
-                        <option>Critical</option>
-
-                    </select>
-
-                </div>
+        </div>
 
 
-                <button
-                    type="submit"
-                    id="submitButton"
-                    class="btn btn-primary submit-btn w-100"
-                >
-                    🤖 Submit & Analyze
-                </button>
+
+        <div class="page-grid">
 
 
-            </form>
+            <!-- ================= FORM ================= -->
+
+            <div class="form-card">
 
 
-            <div id="resultCard" class="result-card">
+                <div class="form-card-header">
 
-                <h5>🤖 AI Classification Result</h5>
+                    <div class="form-icon">
 
-                <div class="result-grid">
-
-                    <div class="result-box">
-
-                        <small>Category</small>
-
-                        <h5 id="categoryResult"></h5>
+                        <i class="fa-solid fa-ticket"></i>
 
                     </div>
 
 
-                    <div class="result-box">
+                    <div>
 
-                        <small>Severity</small>
+                        <h5>
+                            Support Ticket Details
+                        </h5>
 
-                        <h5 id="severityResult"></h5>
-
-                    </div>
-
-
-                    <div class="result-box">
-
-                        <small>Priority</small>
-
-                        <h5 id="priorityResult"></h5>
-
-                    </div>
-
-
-                    <div class="result-box">
-
-                        <small>Confidence</small>
-
-                        <h5 id="confidenceResult"></h5>
+                        <p>
+                            Provide clear information about the issue.
+                        </p>
 
                     </div>
 
                 </div>
+
+
+
+                <div class="form-body">
+
+
+                    <form id="ticketForm">
+
+
+                        <div class="row g-4">
+
+
+                            <!-- EMPLOYEE -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+
+                                    Employee Name
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+
+                                <div class="input-group-custom">
+
+                                    <i
+                                        class="fa-regular fa-user input-icon"
+                                    ></i>
+
+                                    <input
+                                        type="text"
+                                        name="employee_name"
+                                        class="form-control"
+                                        placeholder="Enter employee name"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- EMAIL -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+
+                                    Email Address
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+
+                                <div class="input-group-custom">
+
+                                    <i
+                                        class="fa-regular fa-envelope input-icon"
+                                    ></i>
+
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        class="form-control"
+                                        placeholder="employee@company.com"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+
+                                    Department
+
+                                </label>
+
+
+                                <select
+                                    name="department"
+                                    class="form-select"
+                                >
+
+                                    <option value="">
+                                        Select department
+                                    </option>
+
+                                    <option value="Information Technology">
+                                        Information Technology
+                                    </option>
+
+                                    <option value="Human Resources">
+                                        Human Resources
+                                    </option>
+
+                                    <option value="Finance">
+                                        Finance
+                                    </option>
+
+                                    <option value="Operations">
+                                        Operations
+                                    </option>
+
+                                    <option value="Marketing">
+                                        Marketing
+                                    </option>
+
+                                    <option value="Sales">
+                                        Sales
+                                    </option>
+
+                                    <option value="Engineering">
+                                        Engineering
+                                    </option>
+
+                                    <option value="Customer Support">
+                                        Customer Support
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- TICKET TITLE -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+
+                                    Ticket Title
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+
+                                <div class="input-group-custom">
+
+                                    <i
+                                        class="fa-solid fa-heading input-icon"
+                                    ></i>
+
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        class="form-control"
+                                        placeholder="Example: VPN connection failing"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="col-12">
+
+                                <label class="form-label">
+
+                                    Issue Description
+
+                                    <span class="required">*</span>
+
+                                </label>
+
+
+                                <textarea
+                                    name="description"
+                                    class="form-control"
+                                    placeholder="Describe what happened, any error messages you received, when the problem started, and what you already tried..."
+                                    required
+                                ></textarea>
+
+
+                                <div class="helper">
+
+                                    <i
+                                        class="fa-solid fa-lightbulb me-1"
+                                    ></i>
+
+                                    More detail improves AI classification quality.
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- SUBMIT -->
+
+                            <div class="col-12">
+
+                                <button
+                                    type="submit"
+                                    id="submitButton"
+                                    class="submit-button"
+                                >
+
+                                    <i
+                                        class="fa-solid fa-wand-magic-sparkles me-2"
+                                    ></i>
+
+                                    Analyze & Submit Ticket
+
+                                </button>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= RIGHT PANEL ================= -->
+
+            <div class="right-panel">
+
+
+                <div class="side-card">
+
+                    <div class="side-title">
+
+                        <div class="side-title-icon">
+
+                            <i
+                                class="fa-solid fa-route"
+                            ></i>
+
+                        </div>
+
+                        What happens next?
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            01
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Ticket Intake
+                            </h6>
+
+                            <p>
+                                SupportPilot receives and validates
+                                your support request.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            02
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                AI Classification
+                            </h6>
+
+                            <p>
+                                The issue is automatically categorized
+                                using the trained ML model.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            03
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Severity Analysis
+                            </h6>
+
+                            <p>
+                                Impact and urgency are analyzed
+                                to determine severity.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            04
+                        </div>
+
+                        <div>
+
+                            <h6>
+                                Priority Assignment
+                            </h6>
+
+                            <p>
+                                SupportPilot generates the appropriate
+                                priority for support handling.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="side-card ai-card">
+
+                    <div class="side-title">
+
+                        <div class="side-title-icon">
+
+                            <i
+                                class="fa-solid fa-brain"
+                            ></i>
+
+                        </div>
+
+                        SupportPilot AI
+
+                    </div>
+
+
+                    <p>
+
+                        Your ticket is processed using machine-learning
+                        classification and intelligent priority analysis.
+                        Ticket information is then available from the
+                        Support Dashboard.
+
+                    </p>
+
+                </div>
+
 
             </div>
 
@@ -467,126 +1731,155 @@
 
     </div>
 
+
 </div>
+
 
 
 <script>
 
-const form = document.getElementById("ticketForm");
+    const ticketForm =
+        document.getElementById("ticketForm");
 
-const button = document.getElementById("submitButton");
+    const submitButton =
+        document.getElementById("submitButton");
 
-const statusMessage =
-    document.getElementById("statusMessage");
-
-const resultCard =
-    document.getElementById("resultCard");
-
-
-form.addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-        button.disabled = true;
-
-        button.innerHTML =
-            "🤖 AI is analyzing ticket...";
+    const resultBox =
+        document.getElementById("resultBox");
 
 
-        const formData =
-            new FormData(form);
+    ticketForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
 
 
-        try {
+            submitButton.disabled = true;
 
-            const response =
-                await fetch(
-                    "/submit-ticket",
-                    {
-                        method: "POST",
-                        body: formData
-                    }
+            submitButton.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin me-2"></i>' +
+                'Analyzing Ticket...';
+
+
+            const formData =
+                new FormData(ticketForm);
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/submit-ticket",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to submit ticket"
+                    );
+
+                }
+
+
+                const result =
+                    data.result || {};
+
+
+                document.getElementById(
+                    "resultMessage"
+                ).textContent =
+                    data.message ||
+                    "SupportPilot completed the AI analysis.";
+
+
+                document.getElementById(
+                    "resultCategory"
+                ).textContent =
+                    result.category || "-";
+
+
+                document.getElementById(
+                    "resultSeverity"
+                ).textContent =
+                    result.severity || "-";
+
+
+                document.getElementById(
+                    "resultPriority"
+                ).textContent =
+                    result.priority || "-";
+
+
+                let confidence =
+                    result.confidence;
+
+
+                if (
+                    confidence !== undefined &&
+                    confidence !== null
+                ) {
+
+                    confidence =
+                        Number(confidence);
+
+                    document.getElementById(
+                        "resultConfidence"
+                    ).textContent =
+                        (confidence * 100).toFixed(1) + "%";
+
+                } else {
+
+                    document.getElementById(
+                        "resultConfidence"
+                    ).textContent = "-";
+
+                }
+
+
+                resultBox.style.display =
+                    "block";
+
+
+                resultBox.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+
+                ticketForm.reset();
+
+
+            } catch(error) {
+
+                alert(
+                    "Error: " +
+                    error.message
                 );
 
+            } finally {
 
-            const data =
-                await response.json();
+                submitButton.disabled =
+                    false;
 
-
-            if (data.success) {
-
-                document.getElementById(
-                    "categoryResult"
-                ).textContent =
-                    data.result.category;
-
-
-                document.getElementById(
-                    "severityResult"
-                ).textContent =
-                    data.result.severity;
-
-
-                document.getElementById(
-                    "priorityResult"
-                ).textContent =
-                    data.result.priority;
-
-
-                document.getElementById(
-                    "confidenceResult"
-                ).textContent =
-                    data.result.confidence + "%";
-
-
-                resultCard.style.display =
-                    "block";
-
-
-                statusMessage.style.display =
-                    "block";
-
-
-                statusMessage.innerHTML =
-                    "✓ Ticket submitted successfully — " +
-                    "Category: " +
-                    data.result.category +
-                    ", Severity: " +
-                    data.result.severity +
-                    ", Priority: " +
-                    data.result.priority;
-
-
-                form.reset();
-
-            }
-
-            else {
-
-                alert(data.message);
+                submitButton.innerHTML =
+                    '<i class="fa-solid fa-wand-magic-sparkles me-2"></i>' +
+                    'Analyze & Submit Ticket';
 
             }
 
         }
-
-        catch(error) {
-
-            alert(
-                "Unable to connect to server."
-            );
-
-        }
-
-
-        button.disabled = false;
-
-        button.innerHTML =
-            "🤖 Submit & Analyze";
-
-    }
-);
+    );
 
 </script>
 
