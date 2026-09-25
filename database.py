@@ -1,31 +1,48 @@
-import os
 import sqlite3
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = "tickets.db"
 
-DB_PATH = os.path.join(
-    BASE_DIR,
-    "tickets.db"
-)
 
+# ============================================================
+# CONNECTION
+# ============================================================
 
 def get_connection():
 
-    conn = sqlite3.connect(DB_PATH)
+    connection = (
+        sqlite3.connect(
+            DATABASE
+        )
+    )
 
-    conn.row_factory = sqlite3.Row
 
-    return conn
+    connection.row_factory = (
+        sqlite3.Row
+    )
 
+
+    return connection
+
+
+# ============================================================
+# TICKETS TABLE
+# ============================================================
 
 def create_table():
 
-    conn = get_connection()
+    connection = (
+        get_connection()
+    )
 
-    cursor = conn.cursor()
 
-    cursor.execute("""
+    cursor = (
+        connection.cursor()
+    )
+
+
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS tickets (
 
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,19 +66,21 @@ def create_table():
             confidence REAL,
 
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
         )
-    """)
+        """
+    )
 
-    conn.commit()
 
-    conn.close()
+    connection.commit()
 
-    print("Database table created successfully")
+    connection.close()
 
+
+# ============================================================
+# SAVE TICKET
+# ============================================================
 
 def save_ticket(
-
     employee_name,
     email,
     title,
@@ -71,17 +90,45 @@ def save_ticket(
     severity,
     priority,
     confidence
-
 ):
 
-    conn = get_connection()
+    connection = (
+        get_connection()
+    )
 
-    cursor = conn.cursor()
 
-    cursor.execute("""
+    cursor = (
+        connection.cursor()
+    )
 
+
+    cursor.execute(
+        """
         INSERT INTO tickets (
 
+            employee_name,
+
+            email,
+
+            title,
+
+            description,
+
+            department,
+
+            category,
+
+            severity,
+
+            priority,
+
+            confidence
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+
+        (
             employee_name,
             email,
             title,
@@ -91,128 +138,251 @@ def save_ticket(
             severity,
             priority,
             confidence
-
         )
+    )
 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 
-    """, (
+    ticket_id = (
+        cursor.lastrowid
+    )
 
-        employee_name,
-        email,
-        title,
-        description,
-        department,
-        category,
-        severity,
-        priority,
-        confidence
 
-    ))
+    connection.commit()
 
-    conn.commit()
+    connection.close()
 
-    ticket_id = cursor.lastrowid
-
-    conn.close()
 
     return ticket_id
 
 
+# ============================================================
+# ALL TICKETS
+# ============================================================
+
 def get_all_tickets():
 
-    conn = get_connection()
+    connection = (
+        get_connection()
+    )
 
-    cursor = conn.cursor()
 
-    cursor.execute("""
+    tickets = (
+        connection.execute(
+            """
+            SELECT *
+            FROM tickets
+            ORDER BY id DESC
+            """
+        )
+        .fetchall()
+    )
 
-        SELECT *
-        FROM tickets
-        ORDER BY id DESC
 
-    """)
+    connection.close()
 
-    tickets = cursor.fetchall()
-
-    conn.close()
 
     return tickets
 
 
-def get_ticket_by_id(ticket_id):
+# ============================================================
+# ONE TICKET
+# ============================================================
 
-    conn = get_connection()
+def get_ticket_by_id(
+    ticket_id
+):
 
-    cursor = conn.cursor()
-
-    cursor.execute(
-
-        "SELECT * FROM tickets WHERE id = ?",
-
-        (ticket_id,)
-
+    connection = (
+        get_connection()
     )
 
-    ticket = cursor.fetchone()
 
-    conn.close()
+    ticket = (
+        connection.execute(
+            """
+            SELECT *
+            FROM tickets
+            WHERE id = ?
+            """,
+
+            (ticket_id,)
+        )
+        .fetchone()
+    )
+
+
+    connection.close()
+
 
     return ticket
 
 
-def get_dashboard_stats():
+# ============================================================
+# USERS TABLE
+# ============================================================
 
-    conn = get_connection()
+def create_users_table():
 
-    cursor = conn.cursor()
+    connection = (
+        get_connection()
+    )
+
+
+    cursor = (
+        connection.cursor()
+    )
 
 
     cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS users (
 
-        "SELECT COUNT(*) FROM tickets"
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
 
+            full_name TEXT NOT NULL,
+
+            email TEXT UNIQUE NOT NULL,
+
+            department TEXT,
+
+            password TEXT NOT NULL,
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """
     )
 
-    total_tickets = cursor.fetchone()[0]
+
+    connection.commit()
+
+    connection.close()
 
 
-    cursor.execute("""
+# ============================================================
+# CREATE USER
+# ============================================================
 
-        SELECT COUNT(*)
-        FROM tickets
-        WHERE severity = 'High'
-        OR severity = 'Critical'
+def create_user(
+    full_name,
+    email,
+    department,
+    password
+):
 
-    """)
+    connection = (
+        get_connection()
+    )
 
-    high_severity = cursor.fetchone()[0]
 
+    try:
 
-    cursor.execute("""
-
-        SELECT COUNT(*)
-        FROM tickets
-        WHERE priority IN (
-            'P1',
-            'Critical',
-            'High'
+        cursor = (
+            connection.cursor()
         )
 
-    """)
 
-    high_priority = cursor.fetchone()[0]
+        cursor.execute(
+            """
+            INSERT INTO users (
+
+                full_name,
+
+                email,
+
+                department,
+
+                password
+            )
+
+            VALUES (?, ?, ?, ?)
+            """,
+
+            (
+                full_name,
+                email,
+                department,
+                password
+            )
+        )
 
 
-    conn.close()
+        user_id = (
+            cursor.lastrowid
+        )
 
 
-    return {
+        connection.commit()
 
-        "total_tickets": total_tickets,
 
-        "high_severity": high_severity,
+        return user_id
 
-        "high_priority": high_priority
 
-    }
+    finally:
+
+        connection.close()
+
+
+# ============================================================
+# USER BY EMAIL
+# ============================================================
+
+def get_user_by_email(
+    email
+):
+
+    connection = (
+        get_connection()
+    )
+
+
+    user = (
+        connection.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE LOWER(email) = LOWER(?)
+            """,
+
+            (email,)
+        )
+        .fetchone()
+    )
+
+
+    connection.close()
+
+
+    return user
+
+
+# ============================================================
+# USER BY ID
+# ============================================================
+
+def get_user_by_id(
+    user_id
+):
+
+    connection = (
+        get_connection()
+    )
+
+
+    user = (
+        connection.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE id = ?
+            """,
+
+            (user_id,)
+        )
+        .fetchone()
+    )
+
+
+    connection.close()
+
+
+    return user

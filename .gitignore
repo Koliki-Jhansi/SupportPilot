@@ -1,13 +1,33 @@
 .env
+
 __pycache__/
 *.pyc
 *.pyo
-*.pkl
+*.pyd
+
+.venv/
+venv/
+env/
+
+# Local database
 *.db
+
+# Dataset files
 *.csv
 *.tsv
 *.xlsx
+
+# Model files
+*.pkl
+
+# Frontend generated files
 frontend/node_modules/
 frontend/dist/
+
 .vscode/
+.idea/
+
 *.log
+
+.DS_Store
+Thumbs.db

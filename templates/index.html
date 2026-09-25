@@ -1778,19 +1778,21 @@
                     );
 
 
-                const data =
-                    await response.json();
+                const rawResponse = await response.text();
 
+console.log("SERVER RESPONSE:", rawResponse);
 
-                if (!response.ok || !data.success) {
+let data;
 
-                    throw new Error(
-                        data.message ||
-                        "Unable to submit ticket"
-                    );
+try {
+    data = JSON.parse(rawResponse);
+} catch (error) {
+    console.error("Flask returned HTML:", rawResponse);
 
-                }
-
+    throw new Error(
+        "Flask returned HTML instead of JSON. Check the server response."
+    );
+}
 
                 const result =
                     data.result || {};
