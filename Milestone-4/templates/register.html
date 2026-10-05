@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Register | SupportPilot
+    </title>
+
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                "Inter",
+                sans-serif;
+
+            background: #f7f8fc;
+
+        }
+
+
+        .page {
+
+            min-height: 100vh;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1.1fr;
+
+        }
+
+
+        .left {
+
+            padding: 65px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #312e81 55%,
+                    #7c3aed
+                );
+
+        }
+
+
+        .logo {
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 24px;
+
+            font-size: 23px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #6366f1
+                );
+
+        }
+
+
+        .left h1 {
+
+            font-size: 36px;
+
+            font-weight: 800;
+
+        }
+
+
+        .left p {
+
+            max-width: 470px;
+
+            color: #c7d2fe;
+
+            line-height: 1.8;
+
+        }
+
+
+        .step {
+
+            display: flex;
+
+            gap: 13px;
+
+            align-items: center;
+
+            margin-top: 20px;
+
+            font-size: 13px;
+
+        }
+
+
+        .number {
+
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                rgba(255,255,255,.12);
+
+            font-weight: 700;
+
+        }
+
+
+        .right {
+
+            padding: 40px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+
+        .register-box {
+
+            width: 100%;
+
+            max-width: 500px;
+
+        }
+
+
+        .register-box h2 {
+
+            font-weight: 800;
+
+        }
+
+
+        .subtitle {
+
+            margin:
+                7px 0 26px;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+        }
+
+
+        .form-label {
+
+            margin-bottom: 6px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+        }
+
+
+        .form-control,
+        .form-select {
+
+            min-height: 46px;
+
+            margin-bottom: 15px;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 10px;
+
+            box-shadow: none !important;
+
+            font-size: 12px;
+
+        }
+
+
+        .register-btn {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-weight: 700;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+        }
+
+
+        .message {
+
+            display: none;
+
+            padding: 11px;
+
+            margin-bottom: 16px;
+
+            border-radius: 10px;
+
+            font-size: 11px;
+
+        }
+
+
+        .message.error {
+
+            display: block;
+
+            color: #b91c1c;
+
+            background: #fee2e2;
+
+        }
+
+
+        .message.success {
+
+            display: block;
+
+            color: #047857;
+
+            background: #d1fae5;
+
+        }
+
+
+        .login {
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+        }
+
+
+        .login a {
+
+            color: #4f46e5;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+        }
+
+
+        @media(max-width:850px) {
+
+            .page {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .left {
+
+                display: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <div class="left">
+
+
+        <div class="logo">
+
+            <i class="fa-solid fa-headset"></i>
+
+        </div>
+
+
+        <h1>
+            Join SupportPilot
+        </h1>
+
+
+        <p>
+
+            Create your secure account and access
+            intelligent ticket classification,
+            prioritization and AI-generated
+            troubleshooting support.
+
+        </p>
+
+
+        <div class="step">
+
+            <div class="number">
+                1
+            </div>
+
+            Create your account
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                2
+            </div>
+
+            Submit IT support tickets
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                3
+            </div>
+
+            Receive AI-powered analysis
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                4
+            </div>
+
+            Generate RAG troubleshooting solutions
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="right">
+
+
+        <div class="register-box">
+
+
+            <h2>
+                Create Account
+            </h2>
+
+
+            <div class="subtitle">
+
+                Register to access the SupportPilot workspace.
+
+            </div>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+
+            <form id="registerForm">
+
+
+                <label class="form-label">
+                    Full Name
+                </label>
+
+
+                <input
+                    type="text"
+                    id="full_name"
+                    class="form-control"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+
+
+                <label class="form-label">
+                    Email Address
+                </label>
+
+
+                <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="you@example.com"
+                    required
+                >
+
+
+
+                <label class="form-label">
+                    Department
+                </label>
+
+
+                <select
+                    id="department"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option value="IT">
+                        IT
+                    </option>
+
+                    <option value="HR">
+                        HR
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Sales">
+                        Sales
+                    </option>
+
+                    <option value="Marketing">
+                        Marketing
+                    </option>
+
+                    <option value="Operations">
+                        Operations
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+
+                <div class="row">
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            class="form-control"
+                            placeholder="Minimum 6 characters"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            class="form-control"
+                            placeholder="Repeat password"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="register-btn"
+                    id="registerButton"
+                >
+
+                    <i class="fa-solid fa-user-plus me-2"></i>
+
+                    Create Account
+
+                </button>
+
+
+            </form>
+
+
+
+            <div class="login">
+
+                Already have an account?
+
+                <a href="/login">
+                    Sign In
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+const form = document.getElementById(
+    "registerForm"
+);
+
+
+const message = document.getElementById(
+    "message"
+);
+
+
+const button = document.getElementById(
+    "registerButton"
+);
+
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        message.className =
+            "message";
+
+
+        const fullName =
+            document.getElementById(
+                "full_name"
+            ).value;
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value;
+
+
+        const department =
+            document.getElementById(
+                "department"
+            ).value;
+
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+
+        const confirmPassword =
+            document.getElementById(
+                "confirm_password"
+            ).value;
+
+
+        if (
+            password !==
+            confirmPassword
+        ) {
+
+            message.className =
+                "message error";
+
+            message.innerText =
+                "Passwords do not match.";
+
+            return;
+
+        }
+
+
+        button.disabled = true;
+
+        button.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin me-2"></i> Creating Account...';
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/register",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body: JSON.stringify({
+
+                            full_name:
+                                fullName,
+
+                            email:
+                                email,
+
+                            department:
+                                department,
+
+                            password:
+                                password,
+
+                            confirm_password:
+                                confirmPassword
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (data.success) {
+
+                message.className =
+                    "message success";
+
+                message.innerText =
+                    "Account created successfully. Redirecting to login...";
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "/login";
+
+                    },
+                    1000
+                );
+
+            }
+
+            else {
+
+                message.className =
+                    "message error";
+
+                message.innerText =
+                    data.message ||
+                    "Registration failed.";
+
+            }
+
+        }
+
+        catch (error) {
+
+            message.className =
+                "message error";
+
+            message.innerText =
+                "Unable to connect to server.";
+
+        }
+
+
+        button.disabled = false;
+
+        button.innerHTML =
+            '<i class="fa-solid fa-user-plus me-2"></i> Create Account';
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

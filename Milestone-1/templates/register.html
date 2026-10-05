@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SupportPilot | Create Account</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #e8f0ff,
+                #f8fafc 50%,
+                #eef2ff
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .register-container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 650px;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15);
+        }
+
+
+        /* LEFT SIDE */
+
+        .register-left {
+            width: 45%;
+            padding: 55px;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                #1e40af,
+                #2563eb,
+                #4338ca
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+
+        /* BRAND */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+
+        .brand h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+
+        .brand p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+
+        /* CONTENT */
+
+        .info-content {
+            margin-top: 35px;
+        }
+
+
+        .info-content h1 {
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+
+        .info-content p {
+            font-size: 16px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+
+        /* STEPS */
+
+        .steps {
+            margin-top: 35px;
+        }
+
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.18);
+            font-weight: 700;
+        }
+
+
+        .step h5 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+
+        .step small {
+            opacity: 0.8;
+        }
+
+
+        .footer-text {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+
+        /* RIGHT SIDE */
+
+        .register-right {
+            width: 55%;
+            padding: 45px 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .register-form {
+            width: 100%;
+            max-width: 470px;
+        }
+
+
+        .register-form h2 {
+            margin: 0 0 8px;
+            color: #1e293b;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+
+        /* FORM */
+
+        .form-label {
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+
+        .form-control {
+            height: 50px;
+            border-radius: 10px;
+            border: 1px solid #dbe3ee;
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+        }
+
+
+        .row-space {
+            margin-bottom: 20px;
+        }
+
+
+        /* BUTTON */
+
+        .register-btn {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .register-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+
+        /* LOGIN */
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #94a3b8;
+            font-size: 13px;
+            margin: 25px 0;
+        }
+
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+
+        .login-text {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        .login-text a {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+
+        /* MOBILE */
+
+        .mobile-brand {
+            display: none;
+        }
+
+
+        @media (max-width: 850px) {
+
+            .register-container {
+                max-width: 520px;
+                min-height: auto;
+            }
+
+
+            .register-left {
+                display: none;
+            }
+
+
+            .register-right {
+                width: 100%;
+                padding: 40px 25px;
+            }
+
+
+            .mobile-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 30px;
+            }
+
+
+            .mobile-brand-icon {
+                width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                background: #eaf1ff;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 0;
+            }
+
+
+            .register-container {
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+
+            .register-right {
+                padding: 35px 20px;
+            }
+
+
+            .register-form h2 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="register-container">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="register-left">
+
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🎧
+            </div>
+
+
+            <div>
+
+                <h2>SupportPilot</h2>
+
+                <p>AI Ticket Resolution Agent</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-content">
+
+            <h1>
+                Start Managing IT Support Smarter.
+            </h1>
+
+
+            <p>
+                Create your SupportPilot account and access an intelligent
+                system for submitting and managing IT support tickets.
+            </p>
+
+
+            <div class="steps">
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        1
+                    </div>
+
+
+                    <div>
+
+                        <h5>Create your account</h5>
+
+                        <small>
+                            Register with your basic information
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        2
+                    </div>
+
+
+                    <div>
+
+                        <h5>Submit support tickets</h5>
+
+                        <small>
+                            Describe your IT problem
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+
+                    <div>
+
+                        <h5>Get AI-powered analysis</h5>
+
+                        <small>
+                            Category, severity and priority prediction
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-text">
+
+            © 2026 SupportPilot • Intelligent IT Support
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="register-right">
+
+
+        <div class="register-form">
+
+
+            <!-- MOBILE BRAND -->
+
+            <div class="mobile-brand">
+
+                <div class="mobile-brand-icon">
+                    🎧
+                </div>
+
+                <strong>SupportPilot</strong>
+
+            </div>
+
+
+            <h2>
+                Create your account
+            </h2>
+
+
+            <p class="subtitle">
+                Join SupportPilot and start managing your support tickets.
+            </p>
+
+
+            <form action="/login" method="GET">
+
+
+                <!-- FULL NAME -->
+
+                <div class="row-space">
+
+                    <label class="form-label">
+                        Full Name
+                    </label>
+
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="row-space">
+
+                    <label class="form-label">
+                        Email Address
+                    </label>
+
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        placeholder="you@company.com"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="row-space">
+
+                    <label class="form-label">
+                        Department
+                    </label>
+
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Example: IT, Engineering, HR"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD ROW -->
+
+                <div class="row g-3 row-space">
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            placeholder="Create password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            placeholder="Confirm password"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- TERMS -->
+
+                <div class="mb-4">
+
+                    <label
+                        style="
+                            color: #64748b;
+                            font-size: 14px;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            required
+                        >
+
+                        I agree to the Terms and Privacy Policy
+
+                    </label>
+
+                </div>
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button
+                    type="submit"
+                    class="register-btn"
+                >
+
+                    Create Account →
+
+                </button>
+
+
+            </form>
+
+
+            <div class="divider">
+
+                OR
+
+            </div>
+
+
+            <div class="login-text">
+
+                Already have an account?
+
+                <a href="/login">
+
+                    Login here
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
