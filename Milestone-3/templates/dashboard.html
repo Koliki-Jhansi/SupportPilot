@@ -1,0 +1,6726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SupportPilot Dashboard</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CHART.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            background: #f7f8fc;
+
+            color: #111827;
+
+            font-family:
+                "Inter",
+                sans-serif;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        button,
+        select,
+        input,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            padding: 24px 16px;
+
+            overflow-y: auto;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #111827 0%,
+                    #1e1b4b 55%,
+                    #312e81 100%
+                );
+
+            color: #ffffff;
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 32px;
+
+            padding: 0 10px;
+        }
+
+
+        .brand-icon {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.14
+                );
+
+            font-size: 19px;
+        }
+
+
+        .brand-text h4 {
+
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 18px;
+
+            font-weight: 800;
+        }
+
+
+        .brand-text span {
+
+            color: #c7d2fe;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        .sidebar-label {
+
+            margin:
+                20px
+                12px
+                8px;
+
+            color: #818cf8;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .sidebar-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            width: 100%;
+
+            margin-bottom: 5px;
+
+            padding: 12px 14px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: transparent;
+
+            color: #d1d5db;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
+            color: #ffffff;
+        }
+
+
+        .sidebar-link i {
+
+            width: 18px;
+
+            text-align: center;
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: 25px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.1
+                );
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main-content {
+
+            min-height: 100vh;
+
+            margin-left: 250px;
+
+            padding:
+                28px
+                32px
+                50px;
+        }
+
+
+        .topbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .topbar-left h2 {
+
+            margin:
+                0
+                0
+                5px;
+
+            font-size: 25px;
+
+            font-weight: 800;
+        }
+
+
+        .topbar-left p {
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+
+        .user-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding:
+                8px
+                13px;
+
+            border:
+                1px solid
+                #e5e7eb;
+
+            border-radius: 12px;
+
+            background: #ffffff;
+        }
+
+
+        .user-avatar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 10px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-weight: 800;
+        }
+
+
+        .user-info strong {
+
+            display: block;
+
+            font-size: 11px;
+        }
+
+
+        .user-info span {
+
+            color: #6b7280;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           SECTIONS
+        ===================================================== */
+
+        .page-section {
+
+            display: none;
+        }
+
+
+        .page-section.active {
+
+            display: block;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .dashboard-hero {
+
+            position: relative;
+
+            margin-bottom: 25px;
+
+            padding: 30px;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #312e81,
+                    #4f46e5,
+                    #6366f1
+                );
+
+            color: #ffffff;
+        }
+
+
+        .dashboard-hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            top: -80px;
+
+            right: -50px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.09
+                );
+        }
+
+
+        .dashboard-hero h1 {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin:
+                0
+                0
+                8px;
+
+            font-size: 30px;
+
+            font-weight: 800;
+        }
+
+
+        .dashboard-hero p {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 650px;
+
+            margin: 0;
+
+            color: #e0e7ff;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           KPI CARDS
+        ===================================================== */
+
+        .stat-card {
+
+            height: 100%;
+
+            padding: 20px;
+
+            border:
+                1px solid
+                #e7e9f0;
+
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0
+                8px
+                25px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+                );
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .stat-icon {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 11px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+        }
+
+
+        .stat-card span {
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+        }
+
+
+        .stat-card h3 {
+
+            margin:
+                14px
+                0
+                0;
+
+            font-size: 27px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           ANALYTICS
+        ===================================================== */
+
+        .analytics-section {
+
+            margin-top: 28px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .analytics-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .analytics-header h4 {
+
+            margin:
+                0
+                0
+                4px;
+
+            font-size: 18px;
+
+            font-weight: 800;
+        }
+
+
+        .analytics-header p {
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 11px;
+        }
+
+
+        .analytics-live {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding:
+                7px
+                12px;
+
+            border-radius: 999px;
+
+            background: #ecfdf5;
+
+            color: #047857;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .analytics-live-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #10b981;
+        }
+
+
+        .analytics-card {
+
+            height: 100%;
+
+            padding: 20px;
+
+            border:
+                1px solid
+                #e7e9f0;
+
+            border-radius: 17px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0
+                8px
+                25px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+                );
+        }
+
+
+        .analytics-card-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .analytics-card h5 {
+
+            margin:
+                0
+                0
+                4px;
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+
+        .analytics-card p {
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 9px;
+        }
+
+
+        .analytics-icon {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 11px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+        }
+
+
+        .chart-wrapper {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 280px;
+
+            min-height: 280px;
+        }
+
+
+        .chart-wrapper canvas {
+
+            width: 100% !important;
+
+            height: 100% !important;
+        }
+
+
+        /* =====================================================
+           TICKET TABLE
+        ===================================================== */
+
+        .ticket-card {
+
+            margin-top: 25px;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                #e7e9f0;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0
+                8px
+                25px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+                );
+        }
+
+
+        .ticket-card-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                20px
+                22px;
+
+            border-bottom:
+                1px solid
+                #eef0f4;
+        }
+
+
+        .ticket-card-header h4 {
+
+            margin: 0;
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .ticket-card-header p {
+
+            margin:
+                4px
+                0
+                0;
+
+            color: #6b7280;
+
+            font-size: 11px;
+        }
+
+
+        .table {
+
+            margin: 0;
+        }
+
+
+        .table thead th {
+
+            padding:
+                13px
+                15px;
+
+            background: #f9fafb;
+
+            color: #6b7280;
+
+            border-bottom:
+                1px solid
+                #e5e7eb;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            white-space: nowrap;
+        }
+
+
+        .table tbody td {
+
+            padding:
+                14px
+                15px;
+
+            color: #374151;
+
+            border-color: #f0f1f4;
+
+            font-size: 11px;
+
+            vertical-align: middle;
+        }
+
+
+        .ticket-title {
+
+            max-width: 240px;
+
+            color: #111827;
+
+            font-weight: 700;
+        }
+
+
+        .badge-custom {
+
+            display: inline-flex;
+
+            padding:
+                5px
+                8px;
+
+            border-radius: 999px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .priority-high {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        .priority-medium {
+
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+
+        .priority-low {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .ai-resolution-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                7px
+                10px;
+
+            border-radius: 8px;
+
+            background: #eef2ff;
+
+            color: #4338ca;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .ai-resolution-btn:hover {
+
+            background: #4338ca;
+
+            color: #ffffff;
+        }
+
+
+        /* =====================================================
+           AI AGENTS
+        ===================================================== */
+
+        .agents-header {
+
+            margin-bottom: 24px;
+        }
+
+
+        .milestone-badge {
+
+            display: inline-block;
+
+            margin-bottom: 10px;
+
+            padding:
+                7px
+                12px;
+
+            border-radius: 999px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            letter-spacing: 0.8px;
+        }
+
+
+        .agents-title {
+
+            margin:
+                0
+                0
+                7px;
+
+            font-size: 28px;
+
+            font-weight: 800;
+        }
+
+
+        .agents-subtitle {
+
+            max-width: 750px;
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .agent-card {
+
+            height: 100%;
+
+            padding: 20px;
+
+            border:
+                1px solid
+                #e7e9f0;
+
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0
+                8px
+                25px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+                );
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .agent-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0
+                12px
+                30px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.07
+                );
+        }
+
+
+        .agent-icon {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 44px;
+
+            height: 44px;
+
+            margin-bottom: 14px;
+
+            border-radius: 12px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-size: 18px;
+        }
+
+
+        .agent-card h5 {
+
+            margin:
+                0
+                0
+                5px;
+
+            font-size: 15px;
+
+            font-weight: 800;
+        }
+
+
+        .agent-status {
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .active-agent {
+
+            color: #059669;
+        }
+
+
+        .standby-agent {
+
+            color: #d97706;
+        }
+
+
+        .agent-card p {
+
+            min-height: 58px;
+
+            margin:
+                12px
+                0
+                0;
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        .agent-metric {
+
+            display: flex;
+
+            flex-direction: column;
+
+            margin-top: 14px;
+
+            padding-top: 12px;
+
+            border-top:
+                1px solid
+                #eef0f5;
+        }
+
+
+        .agent-metric span {
+
+            color: #9ca3af;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.5px;
+
+            text-transform: uppercase;
+        }
+
+
+        .agent-metric strong {
+
+            margin-top: 4px;
+
+            color: #312e81;
+
+            font-size: 17px;
+
+            font-weight: 900;
+        }
+
+
+        /* =====================================================
+           WORKFLOW
+        ===================================================== */
+
+        .workflow-card,
+        .result-card,
+        .agent-performance-card {
+
+            padding: 24px;
+
+            border:
+                1px solid
+                #e7e9f0;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0
+                8px
+                25px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+                );
+        }
+
+
+        .workflow-card h4,
+        .result-card h4,
+        .agent-performance-card h4 {
+
+            margin-bottom: 5px;
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .workflow-description {
+
+            margin-bottom: 20px;
+
+            color: #6b7280;
+
+            font-size: 11px;
+        }
+
+
+        .ticket-select {
+
+            min-height: 46px;
+
+            border-radius: 10px;
+        }
+
+
+        .run-agent-btn {
+
+            min-height: 46px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #6366f1
+                );
+
+            color: #ffffff;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .run-agent-btn:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4338ca,
+                    #4f46e5
+                );
+
+            color: #ffffff;
+        }
+
+
+        .workflow-steps {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+            padding: 17px;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+        }
+
+
+        .workflow-step {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding:
+                8px
+                10px;
+
+            border:
+                1px solid
+                #e5e7eb;
+
+            border-radius: 9px;
+
+            background: #ffffff;
+
+            color: #374151;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .workflow-step i {
+
+            color: #4f46e5;
+        }
+
+
+        .workflow-arrow {
+
+            color: #9ca3af;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           AGENT PERFORMANCE
+        ===================================================== */
+
+        .agent-performance-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .agent-performance-header p {
+
+            margin:
+                4px
+                0
+                0;
+
+            color: #6b7280;
+
+            font-size: 10px;
+        }
+
+
+        .threshold-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                7px
+                12px;
+
+            border:
+                1px solid
+                #fed7aa;
+
+            border-radius: 999px;
+
+            background: #fff7ed;
+
+            color: #c2410c;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .agent-chart-wrapper {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 320px;
+
+            min-height: 320px;
+        }
+
+
+        .agent-chart-wrapper canvas {
+
+            width: 100% !important;
+
+            height: 100% !important;
+        }
+
+
+        /* =====================================================
+           RESULTS
+        ===================================================== */
+
+        .empty-agent-result {
+
+            padding:
+                55px
+                20px;
+
+            text-align: center;
+        }
+
+
+        .empty-agent-result i {
+
+            margin-bottom: 15px;
+
+            color: #4f46e5;
+
+            font-size: 38px;
+        }
+
+
+        .empty-agent-result h5 {
+
+            font-weight: 800;
+        }
+
+
+        .empty-agent-result p {
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+
+        .result-section {
+
+            margin-top: 14px;
+
+            padding: 17px;
+
+            border:
+                1px solid
+                #eef0f4;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+        }
+
+
+        .result-label {
+
+            margin-bottom: 8px;
+
+            color: #6b7280;
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            letter-spacing: 0.6px;
+
+            text-transform: uppercase;
+        }
+
+
+        .result-value {
+
+            color: #374151;
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+
+        .confidence-number {
+
+            color: #312e81;
+
+            font-size: 30px;
+
+            font-weight: 900;
+        }
+
+
+        .result-status {
+
+            display: inline-flex;
+
+            padding:
+                6px
+                11px;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+
+            font-weight: 900;
+        }
+
+
+        .status-auto {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .status-escalate {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        .knowledge-item {
+
+            margin-top: 9px;
+
+            padding: 12px;
+
+            border:
+                1px solid
+                #e5e7eb;
+
+            border-radius: 9px;
+
+            background: #ffffff;
+        }
+
+
+        .knowledge-title {
+
+            color: #111827;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .knowledge-score {
+
+            margin-top: 4px;
+
+            color: #6b7280;
+
+            font-size: 9px;
+        }
+
+
+        .resolution-box {
+
+            margin-top: 10px;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            white-space: pre-wrap;
+
+            line-height: 1.7;
+        }
+
+
+        .integration-box {
+
+            margin-top: 10px;
+
+            padding: 14px;
+
+            border:
+                1px solid
+                #e5e7eb;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            color: #374151;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+
+        .jira-open-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 10px;
+
+            padding:
+                8px
+                12px;
+
+            border-radius: 8px;
+
+            background: #4f46e5;
+
+            color: #ffffff !important;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            transition: 0.2s ease;
+        }
+
+
+        .jira-open-link:hover {
+
+            background: #4338ca;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (
+            max-width: 991px
+        ) {
+
+            .sidebar {
+
+                width: 210px;
+            }
+
+
+            .main-content {
+
+                margin-left: 210px;
+
+                padding: 22px;
+            }
+
+
+            .chart-wrapper {
+
+                height: 250px;
+
+                min-height: 250px;
+            }
+        }
+
+
+        @media (
+            max-width: 767px
+        ) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 18px;
+            }
+
+
+            .topbar {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .analytics-header,
+            .agent-performance-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .chart-wrapper,
+            .agent-chart-wrapper {
+
+                height: 240px;
+
+                min-height: 240px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            <i class="fa-solid fa-headset"></i>
+
+        </div>
+
+
+        <div class="brand-text">
+
+            <h4>
+                SupportPilot
+            </h4>
+
+            <span>
+                AI IT Support
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-label">
+        Workspace
+    </div>
+
+
+    <button
+        id="dashboardNav"
+        type="button"
+        class="sidebar-link active"
+        onclick="openSection('dashboard')"
+    >
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <span>
+            Dashboard
+        </span>
+
+    </button>
+
+
+    <a
+        href="/"
+        class="sidebar-link"
+    >
+
+        <i class="fa-solid fa-plus"></i>
+
+        <span>
+            New Ticket
+        </span>
+
+    </a>
+
+
+    <button
+        id="agentsNav"
+        type="button"
+        class="sidebar-link"
+        onclick="openSection('agents')"
+    >
+
+        <i class="fa-solid fa-robot"></i>
+
+        <span>
+            AI Agents
+        </span>
+
+    </button>
+
+
+    <div class="sidebar-label">
+        Support
+    </div>
+
+
+    <a
+        href="/api/tickets"
+        class="sidebar-link"
+    >
+
+        <i class="fa-solid fa-code"></i>
+
+        <span>
+            Tickets API
+        </span>
+
+    </a>
+
+
+    <a
+        href="/severity-guide"
+        class="sidebar-link"
+    >
+
+        <i class="fa-solid fa-circle-info"></i>
+
+        <span>
+            Severity Guide
+        </span>
+
+    </a>
+
+
+    <div class="sidebar-bottom">
+
+        <a
+            href="/logout"
+            class="sidebar-link"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="main-content">
+
+
+    <div class="topbar">
+
+
+        <div class="topbar-left">
+
+            <h2>
+                SupportPilot
+            </h2>
+
+            <p>
+                AI-powered IT support ticket management
+            </p>
+
+        </div>
+
+
+        <div class="user-card">
+
+
+            <div class="user-avatar">
+
+                {% if user and user['full_name'] %}
+
+                    {{ user['full_name'][0]|upper }}
+
+                {% else %}
+
+                    U
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="user-info">
+
+                <strong>
+
+                    {% if user %}
+
+                        {{ user['full_name'] }}
+
+                    {% else %}
+
+                        Support User
+
+                    {% endif %}
+
+                </strong>
+
+
+                <span>
+
+                    {% if user and user['department'] %}
+
+                        {{ user['department'] }}
+
+                    {% else %}
+
+                        IT Support
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         DASHBOARD SECTION
+    ====================================================== -->
+
+    <section
+        id="dashboardSection"
+        class="page-section active"
+    >
+
+
+        <div class="dashboard-hero">
+
+            <h1>
+                Resolve smarter. Support faster.
+            </h1>
+
+
+            <p>
+                SupportPilot uses machine learning and
+                retrieval-augmented generation to classify
+                support tickets, identify severity and priority,
+                retrieve enterprise knowledge and generate
+                intelligent troubleshooting solutions.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             CALCULATE COUNTS
+        ================================================== -->
+
+        {% set total_tickets = tickets|length %}
+
+
+        {% set high_count =
+            namespace(value=0)
+        %}
+
+
+        {% set medium_count =
+            namespace(value=0)
+        %}
+
+
+        {% set low_count =
+            namespace(value=0)
+        %}
+
+
+        {% for ticket in tickets %}
+
+
+            {% if ticket['priority']|lower == 'high' %}
+
+
+                {% set high_count.value =
+                    high_count.value + 1
+                %}
+
+
+            {% elif ticket['priority']|lower == 'medium' %}
+
+
+                {% set medium_count.value =
+                    medium_count.value + 1
+                %}
+
+
+            {% elif ticket['priority']|lower == 'low' %}
+
+
+                {% set low_count.value =
+                    low_count.value + 1
+                %}
+
+
+            {% endif %}
+
+
+        {% endfor %}
+
+
+        <!-- =================================================
+             KPI CARDS
+        ================================================== -->
+
+        <div class="row g-3">
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-top">
+
+                        <span>
+                            Total Tickets
+                        </span>
+
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-ticket"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        {{ total_tickets }}
+                    </h3>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-top">
+
+                        <span>
+                            High Priority
+                        </span>
+
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        {{ high_count.value }}
+                    </h3>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-top">
+
+                        <span>
+                            Medium Priority
+                        </span>
+
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        {{ medium_count.value }}
+                    </h3>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+
+                    <div class="stat-top">
+
+                        <span>
+                            Low Priority
+                        </span>
+
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        {{ low_count.value }}
+                    </h3>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             WORKING ANALYTICS SECTION
+        ================================================== -->
+
+        <div class="analytics-section">
+
+
+            <div class="analytics-header">
+
+
+                <div>
+
+                    <h4>
+
+                        <i class="fa-solid fa-chart-column me-2"></i>
+
+                        SupportPilot Analytics
+
+                    </h4>
+
+
+                    <p>
+                        Live visualization of your current
+                        support ticket dataset.
+                    </p>
+
+                </div>
+
+
+                <div class="analytics-live">
+
+                    <span class="analytics-live-dot"></span>
+
+                    LIVE DATA
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <!-- PRIORITY -->
+
+                <div class="col-xl-4 col-lg-6">
+
+                    <div class="analytics-card">
+
+
+                        <div class="analytics-card-top">
+
+
+                            <div>
+
+                                <h5>
+                                    Priority Distribution
+                                </h5>
+
+                                <p>
+                                    High, medium and low priority
+                                </p>
+
+                            </div>
+
+
+                            <div class="analytics-icon">
+
+                                <i class="fa-solid fa-gauge-high"></i>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="chart-wrapper">
+
+                            <canvas
+                                id="priorityChart"
+                            ></canvas>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="col-xl-4 col-lg-6">
+
+                    <div class="analytics-card">
+
+
+                        <div class="analytics-card-top">
+
+
+                            <div>
+
+                                <h5>
+                                    Tickets by Category
+                                </h5>
+
+                                <p>
+                                    AI classification distribution
+                                </p>
+
+                            </div>
+
+
+                            <div class="analytics-icon">
+
+                                <i class="fa-solid fa-layer-group"></i>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="chart-wrapper">
+
+                            <canvas
+                                id="categoryChart"
+                            ></canvas>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEVERITY -->
+
+                <div class="col-xl-4 col-lg-12">
+
+                    <div class="analytics-card">
+
+
+                        <div class="analytics-card-top">
+
+
+                            <div>
+
+                                <h5>
+                                    Severity Distribution
+                                </h5>
+
+                                <p>
+                                    Current severity levels
+                                </p>
+
+                            </div>
+
+
+                            <div class="analytics-icon">
+
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="chart-wrapper">
+
+                            <canvas
+                                id="severityChart"
+                            ></canvas>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             SUPPORT TICKETS
+        ================================================== -->
+
+        <div class="ticket-card">
+
+
+            <div class="ticket-card-header">
+
+
+                <div>
+
+                    <h4>
+                        Support Tickets
+                    </h4>
+
+                    <p>
+                        AI classification, severity and resolution
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="/"
+                    class="btn btn-sm btn-primary"
+                >
+
+                    <i class="fa-solid fa-plus me-1"></i>
+
+                    New Ticket
+
+                </a>
+
+
+            </div>
+
+
+            <div class="table-responsive">
+
+
+                <table class="table align-middle">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Employee</th>
+
+                            <th>Title</th>
+
+                            <th>Category</th>
+
+                            <th>Severity</th>
+
+                            <th>Priority</th>
+
+                            <th>Confidence</th>
+
+                            <th>AI Resolution</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% if tickets %}
+
+
+                        {% for ticket in tickets %}
+
+
+                        <tr>
+
+
+                            <td>
+
+                                #{{ ticket['id'] }}
+
+                            </td>
+
+
+                            <td>
+
+
+                                <strong>
+
+                                    {{ ticket['employee_name'] }}
+
+                                </strong>
+
+
+                                <br>
+
+
+                                <small class="text-muted">
+
+                                    {{ ticket['department'] }}
+
+                                </small>
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                <div class="ticket-title">
+
+                                    {{ ticket['title'] }}
+
+                                </div>
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                <span class="badge-custom">
+
+                                    {{ ticket['category'] }}
+
+                                </span>
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                <span class="badge-custom">
+
+                                    {{ ticket['severity'] }}
+
+                                </span>
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                {% set priority =
+                                    ticket['priority']|lower
+                                %}
+
+
+                                <span
+                                    class="
+                                        badge-custom
+
+                                        {% if priority == 'high' %}
+
+                                            priority-high
+
+                                        {% elif priority == 'medium' %}
+
+                                            priority-medium
+
+                                        {% else %}
+
+                                            priority-low
+
+                                        {% endif %}
+                                    "
+                                >
+
+                                    {{ ticket['priority'] }}
+
+                                </span>
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                {% set conf =
+                                    ticket['confidence']|float
+                                %}
+
+
+                                {% if conf <= 1 %}
+
+
+                                    {{ "%.2f"|format(conf * 100) }}%
+
+
+                                {% else %}
+
+
+                                    {{ "%.2f"|format(conf) }}%
+
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <td>
+
+
+                                <a
+                                    href="/ai-resolution/{{ ticket['id'] }}"
+                                    class="ai-resolution-btn"
+                                >
+
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                                    Generate AI Solution
+
+                                </a>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <tr>
+
+
+                            <td
+                                colspan="8"
+                                class="text-center py-5 text-muted"
+                            >
+
+                                No support tickets found.
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endif %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+<div class="row g-3 mb-4">
+
+
+        <!-- DIAGNOSIS AGENT -->
+
+        <div class="col-xl col-lg-4 col-md-6">
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+
+                    <i class="fa-solid fa-stethoscope"></i>
+
+                </div>
+
+
+                <h5>
+
+                    Diagnosis Agent
+
+                </h5>
+
+
+                <div class="agent-status active-agent">
+
+                    ● Active
+
+                </div>
+
+
+                <p>
+
+                    Analyzes ticket symptoms and determines
+                    the likely IT issue category and diagnosis.
+
+                </p>
+
+
+                <div class="agent-metric">
+
+                    <span>
+
+                        Confidence
+
+                    </span>
+
+
+                    <strong id="agentDiagnosisScore">
+
+                        --%
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RETRIEVAL AGENT -->
+
+        <div class="col-xl col-lg-4 col-md-6">
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+
+                <h5>
+
+                    Retrieval Agent
+
+                </h5>
+
+
+                <div class="agent-status active-agent">
+
+                    ● Active
+
+                </div>
+
+
+                <p>
+
+                    Searches the SupportPilot knowledge base
+                    and retrieves relevant enterprise support
+                    information using RAG.
+
+                </p>
+
+
+                <div class="agent-metric">
+
+                    <span>
+
+                        Similarity
+
+                    </span>
+
+
+                    <strong id="agentRetrievalScore">
+
+                        --%
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESOLUTION AGENT -->
+
+        <div class="col-xl col-lg-4 col-md-6">
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                </div>
+
+
+                <h5>
+
+                    Resolution Agent
+
+                </h5>
+
+
+                <div class="agent-status active-agent">
+
+                    ● Active
+
+                </div>
+
+
+                <p>
+
+                    Converts retrieved knowledge into
+                    structured troubleshooting and resolution
+                    instructions.
+
+                </p>
+
+
+                <div class="agent-metric">
+
+                    <span>
+
+                        Completeness
+
+                    </span>
+
+
+                    <strong id="agentResolutionScore">
+
+                        --%
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VALIDATION AGENT -->
+
+        <div class="col-xl col-lg-6 col-md-6">
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+
+                <h5>
+
+                    Validation Agent
+
+                </h5>
+
+
+                <div class="agent-status active-agent">
+
+                    ● Active
+
+                </div>
+
+
+                <p>
+
+                    Combines diagnosis confidence, retrieval
+                    similarity and resolution completeness
+                    into the final confidence score.
+
+                </p>
+
+
+                <div class="agent-metric">
+
+                    <span>
+
+                        Final Confidence
+
+                    </span>
+
+
+                    <strong id="agentValidationScore">
+
+                        --%
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ESCALATION AGENT -->
+
+        <div class="col-xl col-lg-6 col-md-6">
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+
+                    <i class="fa-solid fa-arrow-up-right-dots"></i>
+
+                </div>
+
+
+                <h5>
+
+                    Escalation Agent
+
+                </h5>
+
+
+                <div class="agent-status standby-agent">
+
+                    ● Standby
+
+                </div>
+
+
+                <p>
+
+                    Escalates low-confidence support tickets
+                    to Jira for human support-team
+                    intervention.
+
+                </p>
+
+
+                <div class="agent-metric">
+
+                    <span>
+
+                        Decision
+
+                    </span>
+
+
+                    <strong id="agentEscalationStatus">
+
+                        Waiting
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         RUN MULTI-AGENT WORKFLOW
+    ====================================================== -->
+
+    <div class="workflow-card mb-4">
+
+
+        <h4>
+
+            <i class="fa-solid fa-robot me-2"></i>
+
+            Run Multi-Agent Workflow
+
+        </h4>
+
+
+        <p class="workflow-description">
+
+            Select an existing support ticket and run the
+            complete Milestone 3 AI agent workflow.
+
+        </p>
+
+
+        <div
+            id="workflowMessage"
+            class="mb-3"
+        ></div>
+
+
+        <div class="row g-3 align-items-end">
+
+
+            <div class="col-lg-8">
+
+
+                <label
+                    for="ticketSelect"
+                    class="form-label fw-bold"
+                >
+
+                    Select Support Ticket
+
+                </label>
+
+
+                <select
+                    id="ticketSelect"
+                    class="form-select ticket-select"
+                >
+
+
+                    <option value="">
+
+                        Select a support ticket
+
+                    </option>
+
+
+                    {% for ticket in tickets %}
+
+
+                    <option
+                        value="{{ ticket['id'] }}"
+                    >
+
+                        #{{ ticket['id'] }}
+                        —
+                        {{ ticket['title'] }}
+                        —
+                        {{ ticket['category'] }}
+
+                    </option>
+
+
+                    {% endfor %}
+
+
+                </select>
+
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+
+                <button
+                    id="runButton"
+                    type="button"
+                    class="btn run-agent-btn w-100"
+                    onclick="runAgents()"
+                >
+
+                    <i class="fa-solid fa-play me-2"></i>
+
+                    Run AI Agents
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             WORKFLOW VISUALIZATION
+        ================================================== -->
+
+        <div class="workflow-steps">
+
+
+            <div class="workflow-step">
+
+                <i class="fa-solid fa-stethoscope"></i>
+
+                Diagnosis
+
+            </div>
+
+
+            <div class="workflow-arrow">
+
+                →
+
+            </div>
+
+
+            <div class="workflow-step">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                Retrieval
+
+            </div>
+
+
+            <div class="workflow-arrow">
+
+                →
+
+            </div>
+
+
+            <div class="workflow-step">
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                Resolution
+
+            </div>
+
+
+            <div class="workflow-arrow">
+
+                →
+
+            </div>
+
+
+            <div class="workflow-step">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Validation
+
+            </div>
+
+
+            <div class="workflow-arrow">
+
+                →
+
+            </div>
+
+
+            <div class="workflow-step">
+
+                <i class="fa-solid fa-code-branch"></i>
+
+                Decision
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         AGENT PERFORMANCE GRAPH
+    ====================================================== -->
+
+    <div
+        id="agentPerformanceCard"
+        class="agent-performance-card mb-4"
+        style="display:none;"
+    >
+
+
+        <div class="agent-performance-header">
+
+
+            <div>
+
+
+                <h4>
+
+                    <i class="fa-solid fa-chart-bar me-2"></i>
+
+                    AI Agent Performance
+
+                </h4>
+
+
+                <p>
+
+                    Real-time confidence analysis across the
+                    complete multi-agent workflow.
+
+                </p>
+
+
+            </div>
+
+
+            <div class="threshold-badge">
+
+                <i class="fa-solid fa-gauge-high"></i>
+
+                Auto-Resolve Threshold: 70%
+
+            </div>
+
+
+        </div>
+
+
+        <div class="agent-chart-wrapper">
+
+
+            <canvas
+                id="agentPerformanceChart"
+            ></canvas>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         MULTI-AGENT RESULTS
+    ====================================================== -->
+
+    <div class="result-card">
+
+
+        <h4>
+
+            <i class="fa-solid fa-chart-line me-2"></i>
+
+            Multi-Agent Results
+
+        </h4>
+
+
+        <p class="workflow-description">
+
+            Diagnosis, retrieval, generated resolution,
+            validation scores and integration status.
+
+        </p>
+
+
+        <div id="agentResult">
+
+
+            <div class="empty-agent-result">
+
+
+                <i class="fa-solid fa-robot"></i>
+
+
+                <h5>
+
+                    Ready to analyze a ticket
+
+                </h5>
+
+
+                <p>
+
+                    Select a support ticket and click
+                    Run AI Agents.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   GLOBAL CHART VARIABLES
+========================================================= */
+
+let supportPriorityChart = null;
+
+let supportCategoryChart = null;
+
+let supportSeverityChart = null;
+
+let supportAgentChart = null;
+
+
+/* =========================================================
+   SECTION SWITCHING
+========================================================= */
+
+function openSection(sectionName) {
+
+
+    const dashboardSection =
+        document.getElementById(
+            "dashboardSection"
+        );
+
+
+    const agentsSection =
+        document.getElementById(
+            "agentsSection"
+        );
+
+
+    const dashboardNav =
+        document.getElementById(
+            "dashboardNav"
+        );
+
+
+    const agentsNav =
+        document.getElementById(
+            "agentsNav"
+        );
+
+
+    if (
+        !dashboardSection
+        ||
+        !agentsSection
+    ) {
+
+        return;
+    }
+
+
+    dashboardSection.classList.remove(
+        "active"
+    );
+
+
+    agentsSection.classList.remove(
+        "active"
+    );
+
+
+    if (dashboardNav) {
+
+        dashboardNav.classList.remove(
+            "active"
+        );
+    }
+
+
+    if (agentsNav) {
+
+        agentsNav.classList.remove(
+            "active"
+        );
+    }
+
+
+    if (
+        sectionName === "agents"
+    ) {
+
+
+        agentsSection.classList.add(
+            "active"
+        );
+
+
+        if (agentsNav) {
+
+            agentsNav.classList.add(
+                "active"
+            );
+        }
+
+
+        history.replaceState(
+            null,
+            "",
+            "/dashboard#ai-agents"
+        );
+
+
+    } else {
+
+
+        dashboardSection.classList.add(
+            "active"
+        );
+
+
+        if (dashboardNav) {
+
+            dashboardNav.classList.add(
+                "active"
+            );
+        }
+
+
+        history.replaceState(
+            null,
+            "",
+            "/dashboard"
+        );
+
+
+        /*
+         * Chart.js sometimes needs a resize when
+         * its parent becomes visible.
+         */
+
+        setTimeout(
+            function() {
+
+                resizeDashboardCharts();
+
+            },
+            100
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DATA FROM FLASK / JINJA
+========================================================= */
+
+const supportPriorityData = {
+
+    high:
+        Number(
+            {{ high_count.value | default(0) }}
+        ),
+
+    medium:
+        Number(
+            {{ medium_count.value | default(0) }}
+        ),
+
+    low:
+        Number(
+            {{ low_count.value | default(0) }}
+        )
+
+};
+
+
+/* =========================================================
+   CATEGORY DATA
+========================================================= */
+
+const supportCategoryData = {};
+
+
+{% for ticket in tickets %}
+
+
+(() => {
+
+
+    const category =
+        {{ (ticket['category'] or 'Unknown') | tojson }};
+
+
+    supportCategoryData[category] =
+        (
+            supportCategoryData[category]
+            ||
+            0
+        )
+        +
+        1;
+
+
+})();
+
+
+{% endfor %}
+
+
+/* =========================================================
+   SEVERITY DATA
+========================================================= */
+
+const supportSeverityData = {};
+
+
+{% for ticket in tickets %}
+
+
+(() => {
+
+
+    const severity =
+        {{ (ticket['severity'] or 'Unknown') | tojson }};
+
+
+    supportSeverityData[severity] =
+        (
+            supportSeverityData[severity]
+            ||
+            0
+        )
+        +
+        1;
+
+
+})();
+
+
+{% endfor %}
+
+
+/* =========================================================
+   PRIORITY CHART
+========================================================= */
+
+function createPriorityChart() {
+
+
+    const canvas =
+        document.getElementById(
+            "priorityChart"
+        );
+
+
+    if (!canvas) {
+
+
+        console.error(
+            "priorityChart canvas not found."
+        );
+
+
+        return;
+    }
+
+
+    if (
+        typeof Chart === "undefined"
+    ) {
+
+
+        console.error(
+            "Chart.js is not loaded."
+        );
+
+
+        return;
+    }
+
+
+    if (supportPriorityChart) {
+
+
+        supportPriorityChart.destroy();
+
+    }
+
+
+    supportPriorityChart =
+        new Chart(
+            canvas,
+            {
+
+
+                type:
+                    "doughnut",
+
+
+                data: {
+
+
+                    labels: [
+
+                        "High",
+
+                        "Medium",
+
+                        "Low"
+
+                    ],
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Tickets",
+
+
+                            data: [
+
+                                supportPriorityData.high,
+
+                                supportPriorityData.medium,
+
+                                supportPriorityData.low
+
+                            ],
+
+
+                            backgroundColor: [
+
+                                "#ef4444",
+
+                                "#f59e0b",
+
+                                "#22c55e"
+
+                            ],
+
+
+                            borderColor:
+                                "#ffffff",
+
+
+                            borderWidth:
+                                3,
+
+
+                            hoverOffset:
+                                8
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    cutout:
+                        "65%",
+
+
+                    plugins: {
+
+
+                        legend: {
+
+
+                            display:
+                                true,
+
+
+                            position:
+                                "bottom",
+
+
+                            labels: {
+
+
+                                usePointStyle:
+                                    true,
+
+
+                                padding:
+                                    18,
+
+
+                                font: {
+
+                                    size:
+                                        11
+
+                                }
+
+                            }
+
+                        },
+
+
+                        tooltip: {
+
+
+                            callbacks: {
+
+
+                                label:
+                                    function(context) {
+
+
+                                        return (
+                                            context.label
+                                            +
+                                            ": "
+                                            +
+                                            context.raw
+                                            +
+                                            " ticket(s)"
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   CATEGORY CHART
+========================================================= */
+
+function createCategoryChart() {
+
+
+    const canvas =
+        document.getElementById(
+            "categoryChart"
+        );
+
+
+    if (!canvas) {
+
+
+        console.error(
+            "categoryChart canvas not found."
+        );
+
+
+        return;
+    }
+
+
+    if (
+        typeof Chart === "undefined"
+    ) {
+
+
+        return;
+    }
+
+
+    let labels =
+        Object.keys(
+            supportCategoryData
+        );
+
+
+    let values =
+        Object.values(
+            supportCategoryData
+        );
+
+
+    /*
+     * If database contains no tickets,
+     * still render a visible empty graph.
+     */
+
+    if (
+        labels.length === 0
+    ) {
+
+
+        labels = [
+            "No Tickets"
+        ];
+
+
+        values = [
+            0
+        ];
+
+    }
+
+
+    if (supportCategoryChart) {
+
+
+        supportCategoryChart.destroy();
+
+    }
+
+
+    supportCategoryChart =
+        new Chart(
+            canvas,
+            {
+
+
+                type:
+                    "bar",
+
+
+                data: {
+
+
+                    labels:
+                        labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Tickets",
+
+
+                            data:
+                                values,
+
+
+                            backgroundColor:
+                                "#6366f1",
+
+
+                            borderColor:
+                                "#4f46e5",
+
+
+                            borderWidth:
+                                1,
+
+
+                            borderRadius:
+                                7,
+
+
+                            borderSkipped:
+                                false
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    plugins: {
+
+
+                        legend: {
+
+                            display:
+                                false
+
+                        },
+
+
+                        tooltip: {
+
+
+                            callbacks: {
+
+
+                                label:
+                                    function(context) {
+
+
+                                        return (
+                                            context.raw
+                                            +
+                                            " ticket(s)"
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+
+                        y: {
+
+
+                            beginAtZero:
+                                true,
+
+
+                            suggestedMax:
+                                5,
+
+
+                            ticks: {
+
+
+                                precision:
+                                    0,
+
+
+                                stepSize:
+                                    1
+
+                            },
+
+
+                            grid: {
+
+
+                                color:
+                                    "rgba(148,163,184,0.15)"
+
+                            }
+
+                        },
+
+
+                        x: {
+
+
+                            grid: {
+
+                                display:
+                                    false
+
+                            },
+
+
+                            ticks: {
+
+
+                                maxRotation:
+                                    35,
+
+
+                                minRotation:
+                                    0
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   SEVERITY CHART
+========================================================= */
+
+function createSeverityChart() {
+
+
+    const canvas =
+        document.getElementById(
+            "severityChart"
+        );
+
+
+    if (!canvas) {
+
+
+        console.error(
+            "severityChart canvas not found."
+        );
+
+
+        return;
+    }
+
+
+    if (
+        typeof Chart === "undefined"
+    ) {
+
+
+        return;
+    }
+
+
+    let labels =
+        Object.keys(
+            supportSeverityData
+        );
+
+
+    let values =
+        Object.values(
+            supportSeverityData
+        );
+
+
+    if (
+        labels.length === 0
+    ) {
+
+
+        labels = [
+            "No Tickets"
+        ];
+
+
+        values = [
+            1
+        ];
+
+    }
+
+
+    const colors = [
+
+        "#dc2626",
+
+        "#f97316",
+
+        "#eab308",
+
+        "#22c55e",
+
+        "#06b6d4",
+
+        "#6366f1",
+
+        "#8b5cf6",
+
+        "#ec4899"
+
+    ];
+
+
+    const chartColors =
+        labels.map(
+            function(
+                item,
+                index
+            ) {
+
+
+                if (
+                    item === "No Tickets"
+                ) {
+
+
+                    return "#e5e7eb";
+
+                }
+
+
+                return colors[
+                    index
+                    %
+                    colors.length
+                ];
+
+            }
+        );
+
+
+    if (supportSeverityChart) {
+
+
+        supportSeverityChart.destroy();
+
+    }
+
+
+    supportSeverityChart =
+        new Chart(
+            canvas,
+            {
+
+
+                type:
+                    "doughnut",
+
+
+                data: {
+
+
+                    labels:
+                        labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Tickets",
+
+
+                            data:
+                                values,
+
+
+                            backgroundColor:
+                                chartColors,
+
+
+                            borderColor:
+                                "#ffffff",
+
+
+                            borderWidth:
+                                3,
+
+
+                            hoverOffset:
+                                8
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    cutout:
+                        "65%",
+
+
+                    plugins: {
+
+
+                        legend: {
+
+
+                            display:
+                                true,
+
+
+                            position:
+                                "bottom",
+
+
+                            labels: {
+
+
+                                usePointStyle:
+                                    true,
+
+
+                                padding:
+                                    15,
+
+
+                                font: {
+
+                                    size:
+                                        10
+
+                                }
+
+                            }
+
+                        },
+
+
+                        tooltip: {
+
+
+                            callbacks: {
+
+
+                                label:
+                                    function(context) {
+
+
+                                        if (
+                                            context.label
+                                            ===
+                                            "No Tickets"
+                                        ) {
+
+
+                                            return "No ticket data";
+
+                                        }
+
+
+                                        return (
+                                            context.label
+                                            +
+                                            ": "
+                                            +
+                                            context.raw
+                                            +
+                                            " ticket(s)"
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZE DASHBOARD CHARTS
+========================================================= */
+
+function initializeSupportPilotCharts() {
+
+
+    if (
+        typeof Chart === "undefined"
+    ) {
+
+
+        console.error(
+            "Chart.js failed to load."
+        );
+
+
+        return;
+    }
+
+
+    console.log(
+        "SupportPilot priority data:",
+        supportPriorityData
+    );
+
+
+    console.log(
+        "SupportPilot category data:",
+        supportCategoryData
+    );
+
+
+    console.log(
+        "SupportPilot severity data:",
+        supportSeverityData
+    );
+
+
+    createPriorityChart();
+
+
+    createCategoryChart();
+
+
+    createSeverityChart();
+
+}
+
+
+/* =========================================================
+   RESIZE DASHBOARD CHARTS
+========================================================= */
+
+function resizeDashboardCharts() {
+
+
+    if (supportPriorityChart) {
+
+
+        supportPriorityChart.resize();
+
+    }
+
+
+    if (supportCategoryChart) {
+
+
+        supportCategoryChart.resize();
+
+    }
+
+
+    if (supportSeverityChart) {
+
+
+        supportSeverityChart.resize();
+
+    }
+
+
+    if (supportAgentChart) {
+
+
+        supportAgentChart.resize();
+
+    }
+
+}
+
+
+/* =========================================================
+   AGENT PERFORMANCE CHART
+========================================================= */
+
+function renderAgentPerformanceChart(
+    diagnosisScore,
+    retrievalScore,
+    completenessScore,
+    finalConfidence,
+    threshold
+) {
+
+
+    if (
+        typeof Chart === "undefined"
+    ) {
+
+
+        console.error(
+            "Chart.js unavailable for agent chart."
+        );
+
+
+        return;
+    }
+
+
+    const card =
+        document.getElementById(
+            "agentPerformanceCard"
+        );
+
+
+    const canvas =
+        document.getElementById(
+            "agentPerformanceChart"
+        );
+
+
+    if (
+        !card
+        ||
+        !canvas
+    ) {
+
+
+        console.error(
+            "Agent performance graph elements not found."
+        );
+
+
+        return;
+    }
+
+
+    card.style.display =
+        "block";
+
+
+    if (supportAgentChart) {
+
+
+        supportAgentChart.destroy();
+
+    }
+
+
+    supportAgentChart =
+        new Chart(
+            canvas,
+            {
+
+
+                type:
+                    "bar",
+
+
+                data: {
+
+
+                    labels: [
+
+                        "Diagnosis",
+
+                        "Retrieval",
+
+                        "Completeness",
+
+                        "Final Confidence",
+
+                        "Threshold"
+
+                    ],
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Performance %",
+
+
+                            data: [
+
+                                normalizePercentage(
+                                    diagnosisScore
+                                ),
+
+                                normalizePercentage(
+                                    retrievalScore
+                                ),
+
+                                normalizePercentage(
+                                    completenessScore
+                                ),
+
+                                normalizePercentage(
+                                    finalConfidence
+                                ),
+
+                                normalizePercentage(
+                                    threshold || 70
+                                )
+
+                            ],
+
+
+                            backgroundColor: [
+
+                                "#4f46e5",
+
+                                "#6366f1",
+
+                                "#8b5cf6",
+
+                                "#0ea5e9",
+
+                                "#f59e0b"
+
+                            ],
+
+                            borderRadius:
+                                8,
+
+
+                            borderSkipped:
+                                false
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+
+                    responsive:
+                        true,
+
+
+                    maintainAspectRatio:
+                        false,
+
+
+                    animation: {
+
+
+                        duration:
+                            800
+
+                    },
+
+
+                    plugins: {
+
+
+                        legend: {
+
+                            display:
+                                false
+
+                        },
+
+
+                        tooltip: {
+
+
+                            callbacks: {
+
+
+                                label:
+                                    function(context) {
+
+
+                                        return (
+                                            Number(
+                                                context.raw
+                                            )
+                                            .toFixed(2)
+                                            +
+                                            "%"
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+
+                        y: {
+
+
+                            beginAtZero:
+                                true,
+
+
+                            max:
+                                100,
+
+
+                            ticks: {
+
+
+                                callback:
+                                    function(value) {
+
+
+                                        return (
+                                            value
+                                            +
+                                            "%"
+                                        );
+
+                                    }
+
+                            },
+
+
+                            grid: {
+
+
+                                color:
+                                    "rgba(148,163,184,0.15)"
+
+                            }
+
+                        },
+
+
+                        x: {
+
+
+                            grid: {
+
+                                display:
+                                    false
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    /*
+     * Chart container was hidden before.
+     * Resize after making it visible.
+     */
+
+    setTimeout(
+        function() {
+
+
+            if (supportAgentChart) {
+
+
+                supportAgentChart.resize();
+
+            }
+
+        },
+        100
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE PERCENTAGE
+========================================================= */
+
+function normalizePercentage(
+    value
+) {
+
+
+    const number =
+        Number(
+            value || 0
+        );
+
+
+    if (
+        !Number.isFinite(number)
+    ) {
+
+
+        return 0;
+
+    }
+
+
+    /*
+     * Backend may return:
+     *
+     * 0.75
+     *
+     * OR
+     *
+     * 75
+     */
+
+
+    if (
+        number > 0
+        &&
+        number <= 1
+    ) {
+
+
+        return (
+            number
+            *
+            100
+        );
+
+    }
+
+
+    return number;
+
+}
+
+
+/* =========================================================
+   RUN MULTI-AGENT WORKFLOW
+========================================================= */
+
+async function runAgents() {
+
+
+    const ticketSelect =
+        document.getElementById(
+            "ticketSelect"
+        );
+
+
+    const runButton =
+        document.getElementById(
+            "runButton"
+        );
+
+
+    const resultBox =
+        document.getElementById(
+            "agentResult"
+        );
+
+
+    const workflowMessage =
+        document.getElementById(
+            "workflowMessage"
+        );
+
+
+    const ticketId =
+        ticketSelect
+        ?
+        ticketSelect.value
+        :
+        "";
+
+
+    if (workflowMessage) {
+
+
+        workflowMessage.innerHTML =
+            "";
+
+    }
+
+
+    if (!ticketId) {
+
+
+        if (workflowMessage) {
+
+
+            workflowMessage.innerHTML = `
+
+                <div class="alert alert-warning">
+
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+
+                    Please select a support ticket.
+
+                </div>
+
+            `;
+
+        }
+
+
+        return;
+    }
+
+
+    /* =====================================================
+       RESET AGENT CARDS
+    ===================================================== */
+
+
+    setAgentText(
+        "agentDiagnosisScore",
+        "Running..."
+    );
+
+
+    setAgentText(
+        "agentRetrievalScore",
+        "Waiting..."
+    );
+
+
+    setAgentText(
+        "agentResolutionScore",
+        "Waiting..."
+    );
+
+
+    setAgentText(
+        "agentValidationScore",
+        "Waiting..."
+    );
+
+
+    setAgentText(
+        "agentEscalationStatus",
+        "Waiting..."
+    );
+
+
+    /* =====================================================
+       BUTTON LOADING
+    ===================================================== */
+
+
+    if (runButton) {
+
+
+        runButton.disabled =
+            true;
+
+
+        runButton.innerHTML = `
+
+            <i class="fa-solid fa-spinner fa-spin me-2"></i>
+
+            Running AI Agents...
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       RESULT LOADING
+    ===================================================== */
+
+
+    if (resultBox) {
+
+
+        resultBox.innerHTML = `
+
+            <div class="empty-agent-result">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <h5>
+
+                    Processing Ticket #${escapeHtml(ticketId)}
+
+                </h5>
+
+                <p>
+
+                    Diagnosis →
+                    Retrieval →
+                    Resolution →
+                    Validation →
+                    Decision
+
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    try {
+
+
+        /* =================================================
+           CALL FLASK API
+        ================================================= */
+
+
+        const response =
+            await fetch(
+
+                `/api/multi-agent/${encodeURIComponent(ticketId)}`,
+
+                {
+
+                    method:
+                        "POST",
+
+
+                    credentials:
+                        "same-origin",
+
+
+                    headers: {
+
+
+                        "Accept":
+                            "application/json"
+
+                    }
+
+                }
+
+            );
+
+
+        /*
+         * IMPORTANT:
+         *
+         * Read as text first.
+         *
+         * This protects the frontend when Flask returns
+         * an HTML error page or login redirect.
+         */
+
+
+        const rawResponse =
+            await response.text();
+
+
+        console.log(
+            "Milestone 3 HTTP Status:",
+            response.status
+        );
+
+
+        console.log(
+            "Milestone 3 Response URL:",
+            response.url
+        );
+
+
+        console.log(
+            "Milestone 3 Redirected:",
+            response.redirected
+        );
+
+
+        console.log(
+            "Milestone 3 Raw Response:",
+            rawResponse
+        );
+
+
+        const normalized =
+            rawResponse
+                .trim()
+                .toLowerCase();
+
+
+        /* =================================================
+           HTML RESPONSE CHECK
+        ================================================= */
+
+
+        if (
+            normalized.startsWith(
+                "<!doctype"
+            )
+            ||
+            normalized.startsWith(
+                "<html"
+            )
+        ) {
+
+
+            console.error(
+                "SupportPilot returned HTML instead of JSON:",
+                rawResponse
+            );
+
+
+            if (
+                response.redirected
+                ||
+                response.url.includes(
+                    "/login"
+                )
+            ) {
+
+
+                window.location.href =
+                    "/login";
+
+
+                return;
+            }
+
+
+            throw new Error(
+
+                "Flask returned HTML instead of JSON. "
+                +
+                "HTTP "
+                +
+                response.status
+                +
+                ". Check the Flask terminal."
+
+            );
+
+        }
+
+
+        /* =================================================
+           EMPTY RESPONSE CHECK
+        ================================================= */
+
+
+        if (
+            !rawResponse.trim()
+        ) {
+
+
+            throw new Error(
+
+                "The multi-agent API returned an empty response."
+
+            );
+
+        }
+
+
+        /* =================================================
+           JSON PARSE
+        ================================================= */
+
+
+        let data;
+
+
+        try {
+
+
+            data =
+                JSON.parse(
+                    rawResponse
+                );
+
+
+        } catch (parseError) {
+
+
+            console.error(
+                "JSON parsing error:",
+                parseError
+            );
+
+
+            console.error(
+                "Raw response:",
+                rawResponse
+            );
+
+
+            throw new Error(
+
+                "The multi-agent API returned invalid JSON."
+
+            );
+
+        }
+
+
+        /* =================================================
+           HTTP ERROR
+        ================================================= */
+
+
+        if (
+            !response.ok
+        ) {
+
+
+            throw new Error(
+
+                data.message
+
+                ||
+
+                (
+                    "SupportPilot returned HTTP "
+                    +
+                    response.status
+                )
+
+            );
+
+        }
+
+
+        /* =================================================
+           API ERROR
+        ================================================= */
+
+
+        if (
+            !data.success
+        ) {
+
+
+            throw new Error(
+
+                data.message
+
+                ||
+
+                "The multi-agent workflow failed."
+
+            );
+
+        }
+
+
+        /* =================================================
+           SUCCESS
+        ================================================= */
+
+
+        displayAgentResult(
+            data
+        );
+
+
+    } catch (error) {
+
+
+        console.error(
+            "SupportPilot Milestone 3 Error:",
+            error
+        );
+
+
+        setAgentText(
+            "agentDiagnosisScore",
+            "Error"
+        );
+
+
+        setAgentText(
+            "agentRetrievalScore",
+            "--%"
+        );
+
+
+        setAgentText(
+            "agentResolutionScore",
+            "--%"
+        );
+
+
+        setAgentText(
+            "agentValidationScore",
+            "--%"
+        );
+
+
+        setAgentText(
+            "agentEscalationStatus",
+            "Error"
+        );
+
+
+        if (resultBox) {
+
+
+            resultBox.innerHTML = `
+
+                <div class="alert alert-danger">
+
+                    <strong>
+
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+
+                        Multi-Agent Workflow Error
+
+                    </strong>
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        error.message
+                    )}
+
+                </div>
+
+            `;
+
+        }
+
+
+    } finally {
+
+
+        if (runButton) {
+
+
+            runButton.disabled =
+                false;
+
+
+            runButton.innerHTML = `
+
+                <i class="fa-solid fa-play me-2"></i>
+
+                Run AI Agents
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   PART 3 CONTINUES WITH:
+   - displayAgentResult()
+   - agent graph update
+   - Email result
+   - Jira clickable issue
+   - helper functions
+   - dashboard graph initialization
+   - closing script/body/html
+========================================================= *//* =========================================================
+   PART 3
+   CONTINUE DIRECTLY AFTER PART 2
+========================================================= */
+
+
+/* =========================================================
+   DISPLAY MULTI-AGENT RESULTS
+========================================================= */
+
+function displayAgentResult(data) {
+
+
+    const result =
+        data.result || {};
+
+
+    const diagnosis =
+        result.diagnosis || {};
+
+
+    const retrieval =
+        result.retrieval || {};
+
+
+    const resolution =
+        result.resolution || {};
+
+
+    const validation =
+        result.validation || {};
+
+
+    const escalation =
+        result.escalation || {};
+
+
+    /* =====================================================
+       DIAGNOSIS SCORE
+    ===================================================== */
+
+    let diagnosisScore;
+
+
+    if (
+        validation.diagnosis_score !== undefined
+        &&
+        validation.diagnosis_score !== null
+    ) {
+
+        diagnosisScore =
+            normalizePercentage(
+                validation.diagnosis_score
+            );
+
+    } else {
+
+        diagnosisScore =
+            normalizePercentage(
+                diagnosis.confidence || 0
+            );
+
+    }
+
+
+    /* =====================================================
+       RETRIEVAL SCORE
+    ===================================================== */
+
+    let retrievalScore;
+
+
+    if (
+        validation.retrieval_score !== undefined
+        &&
+        validation.retrieval_score !== null
+    ) {
+
+        retrievalScore =
+            normalizePercentage(
+                validation.retrieval_score
+            );
+
+    } else {
+
+        retrievalScore =
+            normalizePercentage(
+                retrieval.similarity || 0
+            );
+
+    }
+
+
+    /* =====================================================
+       COMPLETENESS SCORE
+    ===================================================== */
+
+    const completenessScore =
+        normalizePercentage(
+            validation.completeness_score
+            ??
+            resolution.completeness
+            ??
+            0
+        );
+
+
+    /* =====================================================
+       FINAL CONFIDENCE
+    ===================================================== */
+
+    const finalConfidence =
+        normalizePercentage(
+            data.confidence
+            ??
+            validation.confidence
+            ??
+            0
+        );
+
+
+    /* =====================================================
+       THRESHOLD
+    ===================================================== */
+
+    const threshold =
+        normalizePercentage(
+            validation.threshold
+            ??
+            70
+        );
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    const status =
+        String(
+            data.status
+            ||
+            validation.status
+            ||
+            "UNKNOWN"
+        )
+        .toUpperCase();
+
+
+    /* =====================================================
+       UPDATE FIVE AGENT CARDS
+    ===================================================== */
+
+    setAgentText(
+
+        "agentDiagnosisScore",
+
+        diagnosisScore.toFixed(2)
+        +
+        "%"
+
+    );
+
+
+    setAgentText(
+
+        "agentRetrievalScore",
+
+        retrievalScore.toFixed(2)
+        +
+        "%"
+
+    );
+
+
+    setAgentText(
+
+        "agentResolutionScore",
+
+        completenessScore.toFixed(2)
+        +
+        "%"
+
+    );
+
+
+    setAgentText(
+
+        "agentValidationScore",
+
+        finalConfidence.toFixed(2)
+        +
+        "%"
+
+    );
+
+
+    setAgentText(
+
+        "agentEscalationStatus",
+
+        status === "ESCALATE"
+
+        ?
+
+        "Escalated"
+
+        :
+
+        "Not Required"
+
+    );
+
+
+    /* =====================================================
+       UPDATE AI AGENT PERFORMANCE GRAPH
+    ===================================================== */
+
+    renderAgentPerformanceChart(
+
+        diagnosisScore,
+
+        retrievalScore,
+
+        completenessScore,
+
+        finalConfidence,
+
+        threshold
+
+    );
+
+
+    /* =====================================================
+       RETRIEVED DOCUMENTS
+    ===================================================== */
+
+    const documents =
+        retrieval.documents
+        ||
+        retrieval.results
+        ||
+        [];
+
+
+    let documentsHtml =
+        "";
+
+
+    if (
+        Array.isArray(documents)
+        &&
+        documents.length > 0
+    ) {
+
+
+        documents.forEach(
+            function(documentItem, index) {
+
+
+                const documentTitle =
+
+                    documentItem.title
+
+                    ||
+
+                    documentItem.name
+
+                    ||
+
+                    documentItem.id
+
+                    ||
+
+                    (
+                        "Knowledge Article "
+                        +
+                        (
+                            index + 1
+                        )
+                    );
+
+
+                const documentScore =
+
+                    documentItem.relevance
+
+                    ??
+
+                    documentItem.score
+
+                    ??
+
+                    documentItem.similarity
+
+                    ??
+
+                    null;
+
+
+                let scoreText =
+                    "N/A";
+
+
+                if (
+                    documentScore !== null
+                    &&
+                    documentScore !== undefined
+                    &&
+                    Number.isFinite(
+                        Number(
+                            documentScore
+                        )
+                    )
+                ) {
+
+
+                    scoreText =
+                        normalizePercentage(
+                            documentScore
+                        )
+                        .toFixed(2)
+                        +
+                        "%";
+
+                }
+
+
+                documentsHtml += `
+
+                    <div class="knowledge-item">
+
+                        <div class="knowledge-title">
+
+                            <i class="fa-solid fa-book me-2"></i>
+
+                            ${escapeHtml(
+                                documentTitle
+                            )}
+
+                        </div>
+
+
+                        <div class="knowledge-score">
+
+                            Relevance:
+
+                            ${escapeHtml(
+                                scoreText
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+    } else {
+
+
+        documentsHtml = `
+
+            <div class="knowledge-item">
+
+                <div class="text-muted">
+
+                    No relevant knowledge documents
+                    were returned.
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       RESOLUTION TEXT
+    ===================================================== */
+
+    const resolutionText =
+
+        resolution.response
+
+        ||
+
+        resolution.resolution
+
+        ||
+
+        resolution.answer
+
+        ||
+
+        resolution.solution
+
+        ||
+
+        "No AI resolution was generated.";
+
+
+    /* =====================================================
+       EMAIL INTEGRATION
+    ===================================================== */
+
+    let emailHtml = "";
+
+    if (data.email) {
+
+        const emailSuccess =
+            Boolean(
+                data.email.success
+            );
+
+        const emailMessage =
+            data.email.message
+            ||
+            (
+                emailSuccess
+                    ? "Resolution email sent successfully."
+                    : "Resolution email was not sent."
+            );
+
+        emailHtml = `
+
+            <div class="integration-box">
+
+                <strong>
+
+                    <i class="fa-solid fa-envelope me-2"></i>
+
+                    Email Notification
+
+                </strong>
+
+                <br><br>
+
+                ${escapeHtml(
+                    emailMessage
+                )}
+
+                ${
+                    emailSuccess
+
+                        ?
+
+                        `
+
+                        <div
+                            style="
+                                margin-top:10px;
+                                color:#166534;
+                                font-weight:800;
+                            "
+                        >
+
+                            <i class="fa-solid fa-circle-check me-1"></i>
+
+                            Email sent successfully
+
+                        </div>
+
+                        `
+
+                        :
+
+                        `
+
+                        <div
+                            style="
+                                margin-top:10px;
+                                color:#991b1b;
+                                font-weight:800;
+                            "
+                        >
+
+                            <i class="fa-solid fa-circle-xmark me-1"></i>
+
+                            Email not sent
+
+                        </div>
+
+                        `
+                }
+
+            </div>
+
+        `;
+
+    } else {
+
+        emailHtml = `
+
+            <div class="integration-box">
+
+                <strong>
+
+                    <i class="fa-solid fa-envelope me-2"></i>
+
+                    Email Notification
+
+                </strong>
+
+                <br><br>
+
+                <div
+                    style="
+                        color:#92400e;
+                        font-weight:700;
+                    "
+                >
+
+                    <i class="fa-solid fa-circle-info me-1"></i>
+
+                    Email not sent — ticket requires human support
+                    and was escalated to Jira.
+
+                </div>
+
+                <div style="margin-top:10px;">
+
+                    Final Confidence:
+
+                    <strong>
+                        ${finalConfidence.toFixed(2)}%
+                    </strong>
+
+                </div>
+
+                <div style="margin-top:6px;">
+
+                    Workflow:
+
+                    <strong>
+                        ESCALATE
+                    </strong>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+    /* =====================================================
+       JIRA INTEGRATION
+    ===================================================== */
+
+    let jiraHtml = "";
+
+
+    if (status === "ESCALATE") {
+
+
+        if (
+            data.jira
+            &&
+            data.jira.success
+        ) {
+
+
+            const jiraIssueKey =
+
+                data.jira.issue_key
+
+                ||
+
+                data.jira.ticket_id
+
+                ||
+
+                "Jira Ticket";
+
+
+            const jiraIssueUrl =
+                safeExternalUrl(
+                    data.jira.issue_url
+                );
+
+
+            jiraHtml = `
+
+                <div class="integration-box">
+
+                    <strong>
+
+                        <i class="fa-solid fa-ticket me-2"></i>
+
+                        Jira Escalation
+
+                    </strong>
+
+
+                    <br><br>
+
+
+                    <div
+                        style="
+                            color:#166534;
+                            font-weight:800;
+                        "
+                    >
+
+                        <i class="fa-solid fa-circle-check me-1"></i>
+
+                        Jira ticket created automatically
+
+                    </div>
+
+
+                    <div style="margin-top:10px;">
+
+                        Final Confidence:
+
+                        <strong>
+                            ${finalConfidence.toFixed(2)}%
+                        </strong>
+
+                    </div>
+
+
+                    <div style="margin-top:6px;">
+
+                        Workflow:
+
+                        <strong>
+                            ESCALATE
+                        </strong>
+
+                    </div>
+
+
+                    <div style="margin-top:6px;">
+
+                        Jira Issue:
+
+                        <strong>
+                            ${escapeHtml(jiraIssueKey)}
+                        </strong>
+
+                    </div>
+
+
+                    ${
+                        jiraIssueUrl
+
+                        ?
+
+                        `
+
+                        <a
+                            href="${escapeHtml(jiraIssueUrl)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="jira-open-link"
+                        >
+
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                            Open Jira Ticket: ${escapeHtml(jiraIssueKey)}
+
+                        </a>
+
+                        `
+
+                        :
+
+                        ""
+                    }
+
+                </div>
+
+            `;
+
+
+        } else {
+
+
+            jiraHtml = `
+
+                <div class="integration-box">
+
+                    <strong>
+
+                        <i class="fa-solid fa-ticket me-2"></i>
+
+                        Jira Escalation
+
+                    </strong>
+
+
+                    <br><br>
+
+
+                    <span
+                        style="
+                            color:#991b1b;
+                            font-weight:800;
+                        "
+                    >
+
+                        <i class="fa-solid fa-circle-xmark me-1"></i>
+
+                        ${escapeHtml(
+                            data.jira && data.jira.message
+                            ? data.jira.message
+                            : "Jira ticket creation failed."
+                        )}
+
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+
+    } else {
+
+
+        jiraHtml = `
+
+            <div class="integration-box">
+
+                <strong>
+
+                    <i class="fa-solid fa-ticket me-2"></i>
+
+                    Jira Escalation
+
+                </strong>
+
+
+                <br><br>
+
+
+                Not required. Final confidence
+                ${finalConfidence.toFixed(2)}%
+                passed the 70% threshold.
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       WORKFLOW STATUS STYLE
+    ===================================================== */
+
+    const statusClass =
+
+        status === "AUTO_RESOLVE"
+
+        ?
+
+        "status-auto"
+
+        :
+
+        "status-escalate";
+
+
+    /* =====================================================
+       WORKFLOW STATUS ICON
+    ===================================================== */
+
+    const statusIcon =
+
+        status === "AUTO_RESOLVE"
+
+        ?
+
+        "fa-circle-check"
+
+        :
+
+        "fa-arrow-up-right-dots";
+
+
+    /* =====================================================
+       ESCALATION DECISION
+    ===================================================== */
+
+    const escalationRequired =
+
+        Boolean(
+            escalation.required
+        )
+
+        ||
+
+        status === "ESCALATE";
+
+
+    const escalationMessage =
+
+        escalation.message
+
+        ||
+
+        (
+            escalationRequired
+
+            ?
+
+            "Escalated to human support"
+
+            :
+
+            "Escalation not required"
+        );
+
+
+    /* =====================================================
+       RESULT CONTAINER
+    ===================================================== */
+
+    const resultBox =
+        document.getElementById(
+            "agentResult"
+        );
+
+
+    if (!resultBox) {
+
+
+        console.error(
+            "agentResult container not found."
+        );
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       FINAL RESULT HTML
+    ===================================================== */
+
+    resultBox.innerHTML = `
+
+
+        <!-- =============================================
+             FINAL CONFIDENCE
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Final Confidence
+
+            </div>
+
+
+            <div class="confidence-number">
+
+                ${finalConfidence.toFixed(2)}%
+
+            </div>
+
+
+            <div
+                style="
+                    margin-top:8px;
+                    color:#6b7280;
+                    font-size:10px;
+                "
+            >
+
+                Auto-Resolve Threshold:
+
+                <strong>
+
+                    ${threshold.toFixed(2)}%
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             WORKFLOW STATUS
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Workflow Status
+
+            </div>
+
+
+            <span
+                class="
+                    result-status
+                    ${statusClass}
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        ${statusIcon}
+                        me-1
+                    "
+                ></i>
+
+                ${escapeHtml(
+                    status
+                )}
+
+            </span>
+
+
+        </div>
+
+
+        <!-- =============================================
+             DIAGNOSIS AGENT
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Diagnosis Agent
+
+            </div>
+
+
+            <div class="result-value">
+
+
+                <strong>
+
+                    Diagnosis:
+
+                </strong>
+
+
+                ${escapeHtml(
+
+                    diagnosis.diagnosis
+
+                    ||
+
+                    diagnosis.issue
+
+                    ||
+
+                    "No diagnosis available."
+
+                )}
+
+
+                <br>
+
+
+                <strong>
+
+                    Category:
+
+                </strong>
+
+
+                ${escapeHtml(
+
+                    diagnosis.category
+
+                    ||
+
+                    "General IT Issue"
+
+                )}
+
+
+                <br>
+
+
+                <strong>
+
+                    Confidence:
+
+                </strong>
+
+
+                ${diagnosisScore.toFixed(2)}%
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             RETRIEVAL AGENT
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Retrieval Agent
+
+            </div>
+
+
+            <div class="result-value">
+
+
+                <strong>
+
+                    Similarity:
+
+                </strong>
+
+
+                ${retrievalScore.toFixed(2)}%
+
+
+            </div>
+
+
+            ${documentsHtml}
+
+
+        </div>
+
+
+        <!-- =============================================
+             RESOLUTION AGENT
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Resolution Agent
+
+            </div>
+
+
+            <div class="result-value">
+
+
+                <strong>
+
+                    Completeness:
+
+                </strong>
+
+
+                ${completenessScore.toFixed(2)}%
+
+
+            </div>
+
+
+            <div class="resolution-box">
+
+                ${escapeHtml(
+                    resolutionText
+                )}
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             VALIDATION AGENT
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Validation Agent
+
+            </div>
+
+
+            <div class="result-value">
+
+
+                <strong>
+
+                    Diagnosis Score:
+
+                </strong>
+
+
+                ${diagnosisScore.toFixed(2)}%
+
+
+                <br>
+
+
+                <strong>
+
+                    Retrieval Score:
+
+                </strong>
+
+
+                ${retrievalScore.toFixed(2)}%
+
+
+                <br>
+
+
+                <strong>
+
+                    Completeness Score:
+
+                </strong>
+
+
+                ${completenessScore.toFixed(2)}%
+
+
+                <br>
+
+
+                <strong>
+
+                    Final Confidence:
+
+                </strong>
+
+
+                ${finalConfidence.toFixed(2)}%
+
+
+                <br>
+
+
+                <strong>
+
+                    Auto-Resolve Threshold:
+
+                </strong>
+
+
+                ${threshold.toFixed(2)}%
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             ESCALATION AGENT
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Escalation Agent
+
+            </div>
+
+
+            <div class="result-value">
+
+
+                <strong>
+
+                    Decision:
+
+                </strong>
+
+
+                ${escapeHtml(
+                    escalationMessage
+                )}
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =============================================
+             INTEGRATIONS
+        ============================================== -->
+
+        <div class="result-section">
+
+
+            <div class="result-label">
+
+                Integrations
+
+            </div>
+
+
+            ${emailHtml}
+
+
+            ${jiraHtml}
+
+
+        </div>
+
+    `;
+
+
+    /* =====================================================
+       SCROLL TO RESULT
+    ===================================================== */
+
+    setTimeout(
+        function() {
+
+
+            const performanceCard =
+                document.getElementById(
+                    "agentPerformanceCard"
+                );
+
+
+            if (performanceCard) {
+
+
+                performanceCard.scrollIntoView(
+                    {
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "start"
+
+                    }
+                );
+
+            }
+
+
+        },
+        200
+    );
+
+}
+
+
+/* =========================================================
+   SET AGENT CARD TEXT
+========================================================= */
+
+function setAgentText(
+    elementId,
+    value
+) {
+
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    if (element) {
+
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+
+    const temporaryElement =
+        document.createElement(
+            "div"
+        );
+
+
+    temporaryElement.textContent =
+
+        value === null
+
+        ||
+
+        value === undefined
+
+        ?
+
+        ""
+
+        :
+
+        String(value);
+
+
+    return temporaryElement.innerHTML;
+
+}
+
+
+/* =========================================================
+   SAFE EXTERNAL URL
+   USED FOR CLICKABLE JIRA LINK
+========================================================= */
+
+function safeExternalUrl(value) {
+
+
+    if (!value) {
+
+
+        return "";
+
+    }
+
+
+    try {
+
+
+        const url =
+            new URL(
+                String(value),
+                window.location.origin
+            );
+
+
+        if (
+            url.protocol === "https:"
+            ||
+            url.protocol === "http:"
+        ) {
+
+
+            return url.href;
+
+        }
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Invalid external URL:",
+            error
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   INITIALIZE DASHBOARD
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+
+        /* =================================================
+           INITIAL PAGE
+        ================================================= */
+
+
+        if (
+            window.location.hash
+            ===
+            "#ai-agents"
+        ) {
+
+
+            openSection(
+                "agents"
+            );
+
+
+        } else {
+
+
+            openSection(
+                "dashboard"
+            );
+
+        }
+
+
+        /* =================================================
+           CHECK CHART.JS
+        ================================================= */
+
+
+        if (
+            typeof Chart === "undefined"
+        ) {
+
+
+            console.error(
+                "Chart.js is not loaded. "
+                +
+                "Check the Chart.js CDN script in <head>."
+            );
+
+
+            return;
+
+        }
+
+
+        console.log(
+            "Chart.js loaded successfully."
+        );
+
+
+        /* =================================================
+           CREATE DASHBOARD GRAPHS
+        ================================================= */
+
+
+        setTimeout(
+            function() {
+
+
+                initializeSupportPilotCharts();
+
+
+                setTimeout(
+                    function() {
+
+
+                        resizeDashboardCharts();
+
+
+                    },
+                    150
+                );
+
+
+            },
+            100
+        );
+
+    }
+);
+
+
+/* =========================================================
+   WINDOW RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+
+        clearTimeout(
+            window.supportPilotResizeTimer
+        );
+
+
+        window.supportPilotResizeTimer =
+            setTimeout(
+                function() {
+
+
+                    resizeDashboardCharts();
+
+
+                },
+                150
+            );
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+[
+    {
+        "id": "KB001",
+        "title": "VPN Troubleshooting Guide",
+        "category": "Network Connectivity",
+        "content": "1. Verify that the user has an active internet connection. 2. Check the VPN client configuration. 3. Verify the VPN server address. 4. Verify authentication settings. 5. Restart the VPN service. 6. Clear cached credentials if authentication fails."
+    },
+    {
+        "id": "KB002",
+        "title": "Network Firewall Configuration",
+        "category": "IT Policies",
+        "content": "Corporate firewalls must allow VPN traffic. Verify that VPN traffic is permitted on ports 500 and 4500 for IPsec VPN connections."
+    },
+    {
+        "id": "KB003",
+        "title": "VPN Authentication Problems",
+        "category": "Authentication",
+        "content": "1. Verify the username. 2. Verify the password. 3. Check MFA configuration. 4. Clear cached credentials. 5. Verify the authentication method configured in the VPN client."
+    },
+    {
+        "id": "KB004",
+        "title": "Password Reset Guide",
+        "category": "Password Reset",
+        "content": "1. Verify employee identity. 2. Open the password reset portal. 3. Create a new password. 4. Ensure the password satisfies company requirements. 5. Unlock the account if it is locked."
+    },
+    {
+        "id": "KB005",
+        "title": "Network Connectivity Troubleshooting",
+        "category": "Network Connectivity",
+        "content": "1. Verify Wi-Fi or Ethernet connectivity. 2. Restart the network adapter. 3. Check the IP address and default gateway. 4. Test connectivity to the gateway. 5. Flush the DNS cache if necessary."
+    },
+    {
+        "id": "KB006",
+        "title": "Software Installation Troubleshooting",
+        "category": "Software Installation",
+        "content": "1. Verify system requirements. 2. Check available disk space. 3. Run the installer with appropriate permissions. 4. Close unnecessary applications. 5. Review installation error logs if installation fails."
+    },
+    {
+        "id": "KB007",
+        "title": "Hardware Troubleshooting",
+        "category": "Hardware Problems",
+        "content": "1. Check power connections. 2. Restart the computer. 3. Disconnect unnecessary external devices. 4. Check Device Manager for errors. 5. Run hardware diagnostics."
+    },
+    {
+        "id": "KB008",
+        "title": "Slow Computer Troubleshooting",
+        "category": "System Troubleshooting",
+        "content": "1. Restart the computer. 2. Check CPU, memory, and disk usage. 3. Close unnecessary applications. 4. Check available disk space. 5. Install pending system updates."
+    },
+    {
+        "id": "KB009",
+        "title": "Application Crash Troubleshooting",
+        "category": "System Troubleshooting",
+        "content": "1. Restart the application. 2. Install available updates. 3. Restart the computer. 4. Clear temporary application files. 5. Collect error messages and logs if the problem continues."
+    },
+    {
+        "id": "KB010",
+        "title": "Email Access Troubleshooting",
+        "category": "Software",
+        "content": "1. Verify internet connectivity. 2. Confirm the correct login credentials. 3. Restart the email client. 4. Check account configuration. 5. Recreate the local email profile if necessary."
+    }
+]
