@@ -99,6 +99,24 @@ class JiraService:
         priority="High"
     ):
 
+        if isinstance(summary, dict):
+            ticket_data = summary
+            ticket_id = ticket_data.get("id", "")
+            title = ticket_data.get("title", "Support Ticket")
+            desc = ticket_data.get("description", "")
+            priority = ticket_data.get("priority", priority or "High")
+
+            summary = f"[SupportPilot #{ticket_id}] {title}"
+
+            if isinstance(description, dict):
+                diag = description.get("diagnosis", {})
+                res = description.get("resolution", {})
+                diag_text = diag.get("diagnosis", "") if isinstance(diag, dict) else str(diag)
+                res_text = res.get("response", "") if isinstance(res, dict) else str(res)
+                description = f"User Description:\n{desc}\n\nDiagnosis:\n{diag_text}\n\nResolution:\n{res_text}"
+            elif not description:
+                description = f"User Description:\n{desc}"
+
         if not self.is_configured():
 
             missing = []
@@ -157,112 +175,83 @@ class JiraService:
             # ATLASSIAN DOCUMENT FORMAT
             # =================================================
 
-            description_document = {
-
-                "type": "doc",
-
-                "version": 1,
-
-                "content": [
-
-                    {
+            paragraphs = []
+            for line in str(description).splitlines():
+                if line.strip():
+                    paragraphs.append({
                         "type": "paragraph",
-
                         "content": [
-
                             {
                                 "type": "text",
-
-                                "text":
-                                    str(description)
+                                "text": line
                             }
+                        ]
+                    })
 
+            if not paragraphs:
+                paragraphs = [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "SupportPilot Escalated Ticket"
+                            }
                         ]
                     }
-
                 ]
-            }
 
+            description_document = {
+                "type": "doc",
+                "version": 1,
+                "content": paragraphs
+            }
 
             # =================================================
             # PAYLOAD
             # =================================================
 
             payload = {
-
                 "fields": {
-
                     "project": {
-                        "key":
-                            self.project_key
+                        "key": self.project_key
                     },
-
-                    "summary":
-                        str(summary),
-
-                    "description":
-                        description_document,
-
+                    "summary": str(summary),
+                    "description": description_document,
                     "issuetype": {
-                        "name":
-                            "Task"
+                        "name": "Task"
                     }
-
                 }
             }
 
-
             headers = {
-
-                "Accept":
-                    "application/json",
-
-                "Content-Type":
-                    "application/json"
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             }
 
-
-            print(
-                "Creating Jira ticket..."
-            )
-
-            print(
-                "Jira endpoint:",
-                endpoint
-            )
-
-            print(
-                "Project:",
-                self.project_key
-            )
-
+            print("Creating Jira ticket...")
+            print("Jira endpoint:", endpoint)
+            print("Project:", self.project_key)
 
             # =================================================
             # SEND REQUEST
             # =================================================
 
             response = requests.post(
-
                 endpoint,
-
                 json=payload,
-
                 headers=headers,
-
                 auth=HTTPBasicAuth(
                     self.email,
                     self.api_token
                 ),
-
                 timeout=30
             )
-
 
             print(
                 "JIRA HTTP STATUS:",
                 response.status_code
             )
-
 
             # =================================================
             # SUCCESS
@@ -272,72 +261,60 @@ class JiraService:
                 200,
                 201
             ):
-
                 data = response.json()
-
-                issue_key = data.get(
-                    "key"
-                )
-
+                issue_key = data.get("key")
 
                 issue_url = (
-                    f"{self.url}"
-                    f"/browse/{issue_key}"
+                    f"{self.url}/browse/{issue_key}"
                 )
-
 
                 print(
                     "JIRA TICKET CREATED:",
                     issue_key
                 )
 
-
                 return {
-
-                    "success":
-                        True,
-
-                    "ticket_id":
-                        issue_key,
-
-                    "issue_key":
-                        issue_key,
-
-                    "issue_url":
-                        issue_url,
-
-                    "message":
-                        (
-                            "Jira ticket created "
-                            f"successfully: {issue_key}"
-                        )
+                    "success": True,
+                    "jira_status": "Created",
+                    "ticket_id": issue_key,
+                    "issue_key": issue_key,
+                    "jira_key": issue_key,
+                    "issue_url": issue_url,
+                    "jira_url": issue_url,
+                    "message": (
+                        "Jira ticket created successfully: "
+                        f"{issue_key}"
+                    )
                 }
-
 
             # =================================================
             # JIRA ERROR
             # =================================================
 
+            error_details = ""
+            try:
+                err_json = response.json()
+                error_messages = err_json.get("errorMessages", [])
+                field_errors = err_json.get("errors", {})
+                all_msgs = list(error_messages) + [f"{k}: {v}" for k, v in field_errors.items()]
+                if all_msgs:
+                    error_details = " – " + "; ".join(all_msgs)
+            except Exception:
+                error_details = f" – {response.text[:200]}"
+
+            clean_error = f"Jira API error ({response.status_code}){error_details}"
+
             print(
                 "JIRA RESPONSE:",
-                response.text
+                clean_error
             )
 
-
             return {
-
-                "success":
-                    False,
-
-                "status_code":
-                    response.status_code,
-
-                "message":
-                    (
-                        "Jira API error "
-                        f"({response.status_code}): "
-                        f"{response.text}"
-                    )
+                "success": False,
+                "jira_status": "Failed",
+                "status_code": response.status_code,
+                "message": clean_error,
+                "error": clean_error
             }
 
 
@@ -351,6 +328,8 @@ class JiraService:
 
                 "success":
                     False,
+
+                "jira_status": "Failed",
 
                 "message":
                     "Jira request timed out."
@@ -368,6 +347,8 @@ class JiraService:
 
                 "success":
                     False,
+
+                "jira_status": "Failed",
 
                 "message":
                     (
@@ -389,6 +370,8 @@ class JiraService:
                 "success":
                     False,
 
+                "jira_status": "Failed",
+
                 "message":
                     (
                         "Jira request failed: "
@@ -409,6 +392,107 @@ class JiraService:
                 "success":
                     False,
 
+                "jira_status": "Failed",
+
                 "message":
                     str(error)
             }
+
+    # ========================================================
+    # SAFE DIAGNOSTIC CHECK
+    # ========================================================
+
+    def verify_jira_access(self):
+        """
+        Safely verifies Jira connectivity, authentication, and project access.
+        Never logs or exposes tokens or secrets.
+        """
+        if not self.is_configured():
+            return {
+                "configured": False,
+                "authenticated": False,
+                "project_exists": False,
+                "project_key": self.project_key,
+                "url": self.url,
+                "error": "Jira configuration is incomplete in environment."
+            }
+
+        try:
+            # 1. Verify Authentication & User
+            user_resp = requests.get(
+                f"{self.url}/rest/api/3/myself",
+                auth=HTTPBasicAuth(self.email, self.api_token),
+                timeout=15
+            )
+
+            if user_resp.status_code != 200:
+                return {
+                    "configured": True,
+                    "authenticated": False,
+                    "project_exists": False,
+                    "project_key": self.project_key,
+                    "url": self.url,
+                    "status_code": user_resp.status_code,
+                    "error": f"Authentication failed (HTTP {user_resp.status_code}). Check JIRA_EMAIL and JIRA_API_TOKEN."
+                }
+
+            user_data = user_resp.json()
+            display_name = user_data.get("displayName", self.email)
+
+            # 2. Check accessible projects
+            projects_resp = requests.get(
+                f"{self.url}/rest/api/3/project",
+                auth=HTTPBasicAuth(self.email, self.api_token),
+                timeout=15
+            )
+
+            accessible_projects = []
+            if projects_resp.status_code == 200:
+                projects_list = projects_resp.json()
+                if isinstance(projects_list, list):
+                    accessible_projects = [
+                        p.get("key") for p in projects_list if isinstance(p, dict) and p.get("key")
+                    ]
+
+            # 3. Check specific configured project
+            proj_resp = requests.get(
+                f"{self.url}/rest/api/3/project/{self.project_key}",
+                auth=HTTPBasicAuth(self.email, self.api_token),
+                timeout=15
+            )
+
+            project_exists = proj_resp.status_code == 200
+            issue_types = []
+            if project_exists:
+                proj_data = proj_resp.json()
+                issue_types = [
+                    it.get("name")
+                    for it in proj_data.get("issueTypes", [])
+                    if isinstance(it, dict) and it.get("name")
+                ]
+
+            return {
+                "configured": True,
+                "authenticated": True,
+                "user": display_name,
+                "url": self.url,
+                "project_key": self.project_key,
+                "project_exists": project_exists,
+                "accessible_projects": accessible_projects,
+                "issue_types": issue_types,
+                "message": (
+                    f"Project '{self.project_key}' is accessible."
+                    if project_exists
+                    else f"Project '{self.project_key}' does not exist on {self.url}. Accessible projects: {accessible_projects or 'None'}"
+                )
+            }
+
+        except Exception as err:
+            return {
+                "configured": True,
+                "authenticated": False,
+                "project_exists": False,
+                "project_key": self.project_key,
+                "url": self.url,
+                "error": f"Connection error: {err}"
+            }

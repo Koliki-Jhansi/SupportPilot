@@ -174,3 +174,56 @@ class EmailService:
                 "message":
                     str(error)
             }
+
+
+    def send_resolution_email(
+        self,
+        ticket_data,
+        result
+    ):
+
+        if not isinstance(ticket_data, dict):
+            ticket_data = {}
+
+        if not isinstance(result, dict):
+            result = {}
+
+        recipient = str(
+            ticket_data.get("email") or ""
+        ).strip()
+
+        ticket_id = ticket_data.get("id", "")
+        title = ticket_data.get("title", "Support Ticket")
+
+        resolution = result.get("resolution", {})
+        if isinstance(resolution, dict):
+            resolution_text = (
+                resolution.get("response")
+                or resolution.get("resolution")
+                or resolution.get("answer")
+                or ""
+            )
+        else:
+            resolution_text = str(resolution)
+
+        if not resolution_text:
+            resolution_text = (
+                "Your support ticket has been resolved by SupportPilot AI."
+            )
+
+        subject = f"[SupportPilot #{ticket_id}] Resolution: {title}"
+
+        body = (
+            f"Hello,\n\n"
+            f"Here is the AI-generated resolution for your support ticket #{ticket_id} ({title}):\n\n"
+            f"{resolution_text}\n\n"
+            f"If you have further questions or if your issue persists, please reply or request human support.\n\n"
+            f"Best regards,\n"
+            f"SupportPilot AI Support Team"
+        )
+
+        return self.send_email(
+            recipient=recipient,
+            subject=subject,
+            body=body
+        )
